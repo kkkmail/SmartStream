@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     27462,        564]
-NotebookOptionsPosition[     27156,        551]
-NotebookOutlinePosition[     27506,        566]
-CellTagsIndexPosition[     27463,        563]
+NotebookDataLength[     25363,        514]
+NotebookOptionsPosition[     25057,        501]
+NotebookOutlinePosition[     25407,        516]
+CellTagsIndexPosition[     25364,        513]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -62,57 +62,7 @@ Cell[BoxData[
      RowBox[{
      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
        "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
-   RowBox[{"(*", " ", 
-    RowBox[{
-    "Calculate", " ", "changes", " ", "to", " ", "position", " ", "due", " ", 
-     "to", " ", "settlement", " ", "of", " ", "a", " ", "given", " ", 
-     "contract"}], " ", "*)"}], "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"getPositionChange", "[", 
-      RowBox[{
-       RowBox[{"contr_", "?", "contractQ"}], ",", " ", "v_"}], "]"}], ":=", 
-     RowBox[{"Module", "[", 
-      RowBox[{
-       RowBox[{"{", 
-        RowBox[{"retVal", ",", " ", "descr", ",", " ", "len"}], "}"}], ",", 
-       "\[IndentingNewLine]", 
-       RowBox[{
-        RowBox[{"descr", " ", "=", " ", 
-         RowBox[{"contrGetDescr", "[", "contr", "]"}]}], ";", 
-        "\[IndentingNewLine]", 
-        RowBox[{"len", " ", "=", " ", 
-         RowBox[{"Length", " ", "[", "descr", "]"}]}], ";", 
-        "\[IndentingNewLine]", 
-        RowBox[{"retVal", "=", 
-         RowBox[{"Table", "[", 
-          RowBox[{"0", ",", 
-           RowBox[{"{", 
-            RowBox[{"ii", ",", "1", ",", "noOfAssets"}], "}"}]}], "]"}]}], 
-        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-        RowBox[{"Do", "[", "\[IndentingNewLine]", 
-         RowBox[{
-          RowBox[{"(", "\[IndentingNewLine]", 
-           RowBox[{
-            RowBox[{
-             RowBox[{"retVal", "[", 
-              RowBox[{"[", " ", 
-               RowBox[{"rdGetAsset", "[", 
-                RowBox[{"descr", "[", 
-                 RowBox[{"[", "ii", "]"}], "]"}], "]"}], "]"}], "]"}], "-=", 
-             RowBox[{"getDeliveryAmount", "[", 
-              RowBox[{
-               RowBox[{"descr", "[", 
-                RowBox[{"[", "ii", "]"}], "]"}], ",", " ", 
-               RowBox[{"v", "[", 
-                RowBox[{"[", "ii", "]"}], "]"}]}], "]"}]}], ";"}], 
-           "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
-          RowBox[{"{", 
-           RowBox[{"ii", ",", "1", ",", "len"}], "}"}]}], 
-         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
-        "\[IndentingNewLine]", 
-        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
-      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
     RowBox[{
      RowBox[{
@@ -545,8 +495,8 @@ Cell[BoxData[
    3.720238160290271*^9, 3.7202381655272512`*^9}, {3.7202387048433037`*^9, 
    3.7202387057970104`*^9}, {3.720239074832597*^9, 3.720239086067834*^9}, 
    3.7202392300465126`*^9, 3.720239386441081*^9, {3.7202396487128115`*^9, 
-   3.7202396514143505`*^9}, {3.720240603194547*^9, 
-   3.72024060552793*^9}},ExpressionUUID->"05d848d7-a864-4b53-807d-\
+   3.7202396514143505`*^9}, {3.720240603194547*^9, 3.72024060552793*^9}, 
+   3.720243022282959*^9},ExpressionUUID->"05d848d7-a864-4b53-807d-\
 292956e87389"]
 },
 WindowSize->{1145, 606},
@@ -565,7 +515,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 26594, 529, 2233, "Input",ExpressionUUID->"05d848d7-a864-4b53-807d-292956e87389"]
+Cell[558, 20, 24495, 479, 1967, "Input",ExpressionUUID->"05d848d7-a864-4b53-807d-292956e87389"]
 }
 ]
 *)

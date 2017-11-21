@@ -1,0 +1,6 @@
+AssetOpt/.vs/AssetOpt/v15/.suo
+*.suo
+AssetOpt/AssetOpt/bin/Debug/AssetOpt.dll
+*.pdb
+AssetOpt/AssetOpt/obj/Debug/AssetOpt.dll
+*.cache

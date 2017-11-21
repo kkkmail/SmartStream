@@ -27,9 +27,6 @@ module DataGenerator =
         |> Array.sort
 
 
-    // TODO: Account for the exchange rate - weak currency should have larger increment
-
-
     // Increment for a contract
     let getIncrement (rnd : System.Random) (conf : ConfigData) : float = 
       conf.incrValues.[rnd.Next(conf.incrValues.Length)]
@@ -98,46 +95,12 @@ module DataGenerator =
 
     let getAllData (rnd : System.Random) (conf : ConfigData) : AllData = 
         {
+            conf = conf
             exchangeRates = getExchangeRates rnd conf
             contracts = getAllContracts rnd conf
             interestRates = getInterestRates rnd conf
             balances = getAssetBalances rnd conf
         }
-
-
-    let getExchangeRate (allData : AllData) (fromAsset : int) (toAsset : int) : float =  
-        allData.exchangeRates.[fromAsset].[toAsset]
-
-    // Amount in the base asset of the contract
-    let getBaseAmount (allData : AllData) (amt : float) (deliveryAsset : int) (baseAsset : int) =
-        amt * (getExchangeRate allData deliveryAsset baseAsset)
-
-
-    // TODO failwith "" should be allData
-    // Cost of contract in accounting currency
-    // v is vector of ...
-    let getContractCost (contr : ContractDescriptor)  (v : int[]) = 
-        let baseAsset = contr.baseAsset
-        let amtToPay = contr.amount
-        let descr = contr.descriptors
-   
-        let len = descr.Length // v must have the same length
-   
-        // Paid amount in base asset of the contract
-        let paid = 
-            v 
-            |> Array.zip descr
-            |> Array.fold (fun acc (d, e) -> acc + (getBaseAmount (failwith "") (d.getDeliveryAmount e) d.asset baseAsset)) 0.0
-   
-        let netAmt = amtToPay - paid
-        let baseInc = -netAmt * (if netAmt > 0.0 then contr.nonPayingRate else contr.overPayingRate)
-   
-        // Amount in accounting currency
-        let retVal = baseInc * getExchangeRate (failwith "") baseAsset ConfigData.baseAccountingAsset
-
-        retVal
-
-
 
 
     

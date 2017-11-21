@@ -32,6 +32,7 @@ type InterestRate =
 
 type AllData = 
     {
+        conf : ConfigData
         exchangeRates : float[][]
         contracts : ContractDescriptor[]
         interestRates : InterestRate[]
