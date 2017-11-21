@@ -4,24 +4,27 @@
 open AssetOpt
 open AssetOpt.DataGenerator
 
+let printResults = true
+
 let sep = "\n=========================================="
 
 let rnd = new System.Random (1)
-let noOfContractsVal = 10000
 
 let conf = 
     {   
         ConfigData.defaultValue with
-            noOfContracts = noOfContractsVal
-            noOfAssets = 100
+            //noOfContracts = 10000
+            //noOfAssets = 100
 
-            minNoOfAssets = 10
-            maxNoOfAssets = 10
+            //minNoOfAssets = 10
+            //maxNoOfAssets = 10
 
-            //maxAmountOnHand = ((float noOfContractsVal) * ConfigData.defaultMaxContractAmount / 2.0) * 0.0
-            maxAmountOnHand = 2500000.0
+            //maxAmountOnHand = 2500000.0
+
+            rescaleRates = true
     }
-//printfn "conf = %A" conf
+
+printfn "conf = %A" conf
 
 let allData = getAllData rnd conf
 
@@ -67,8 +70,7 @@ let payAllContracts (contracts : ContractDescriptor[], position : PositionData) 
     let allPaid, newPos = 
         contracts
         |> Array.fold (fun 
-                        (acc : List<ContractDescriptor> * PositionData) c -> 
-                            let paidContracts, currentPosition = acc
+                        (paidContracts : List<ContractDescriptor>, currentPosition : PositionData) c -> 
                             let paid, updatedPosition = payContract c currentPosition
                             (paid :: paidContracts), updatedPosition
                         ) ([], position)
@@ -76,16 +78,14 @@ let payAllContracts (contracts : ContractDescriptor[], position : PositionData) 
     (allPaid |> List.rev |> List.toArray, newPos)
 
 
-let payAll (contracts : ContractDescriptor[], positions : PositionData[]) = // : (ContractDescriptor[] * PositionData[])
+let payAll (contracts : ContractDescriptor[], positions : PositionData[]) : (ContractDescriptor[] * PositionData[]) =
     let newContracts, newPositions = 
         positions
         |> Array.fold (fun 
-                        (acc :  ContractDescriptor[] * List<PositionData>) p -> 
-                            let paidContracts, updatedPositions = acc
-                            let newPaidContracts, np = payAllContracts (paidContracts, p)
-                            newPaidContracts, (np :: updatedPositions)
+                        (paidContracts :  ContractDescriptor[], updatedPositions : List<PositionData>) p -> 
+                            let newPaidContracts, newPos = payAllContracts (paidContracts, p)
+                            newPaidContracts, (newPos :: updatedPositions)
                         ) (contracts, [])
-
 
     (newContracts, newPositions |> List.rev |> List.toArray)
 
@@ -105,40 +105,49 @@ let sortedPositions =
     |> Array.sortBy (fun p -> p.incomeRate)
 
 
-//printfn "%s\nallData.positions = %A" sep allData.positions
+if printResults then 
+    printfn "%s\nallData.positions = %A" sep allData.positions
 
-//printfn "%s\nsortedContracts" sep
-//sortedContracts |> Array.map (fun e -> printfn "    %A" e)
+    printfn "%s\nsortedContracts" sep
+    sortedContracts |> Array.map (fun e -> printfn "    %A" e) |> ignore
 
-//printfn "%s\nsortedPositions" sep
-//sortedPositions |> Array.map (fun e -> printfn "    %A" e)
+    printfn "%s\nsortedPositions" sep
+    sortedPositions |> Array.map (fun e -> printfn "    %A" e) |> ignore
 
-//printfn "Pay most expensive contract with most useless asset."
-//let c = sortedContracts.[0]
-//printfn "%s\nMost expensive contract:\n %A" sep c
+    printfn "Pay most expensive contract with most useless asset."
+    let c = sortedContracts.[0]
+    printfn "%s\nMost expensive contract:\n %A" sep c
 
-//let p = sortedPositions.[0]
-//printfn "%s\nMost useless asset:\n %A" sep p
+    let p = sortedPositions.[0]
+    printfn "%s\nMost useless asset:\n %A" sep p
 
-//let c1, p1 = payContract c p
+    let c1, p1 = payContract c p
 
-//printfn "%s\nMost expensive contract (paid):\n %A" sep c1
-//printfn "%s\nMost useless asset (paid contract):\n %A" sep p1
+    printfn "%s\nMost expensive contract (paid):\n %A" sep c1
+    printfn "%s\nMost useless asset (paid contract):\n %A" sep p1
 
 
-printfn "Paying contracts..."
+printfn "%s\nPaying contracts..." sep
 
 #time
 let paid, newPos = payAll (sortedContracts, sortedPositions)
 #time
 
 
-//printfn "%s\npaid" sep
-//paid |> Array.map (fun e -> printfn "    %A" e)
+if printResults then 
+    printfn "%s\npaid" sep
+    paid |> Array.map (fun e -> printfn "    %A" e) |> ignore
 
-//printfn "%s\nnewPos = %A" sep newPos
+    printfn "%s\nnewPos = %A" sep newPos
+
 
 let startingBalance = getNetBalance sortedContracts sortedPositions
 let endingBalance = getNetBalance paid newPos
-printfn "%s\nstartingBalance = %AM, endingBalance = %AM" sep (startingBalance / 1000000.0) (endingBalance / 1000000.0)
+
+if (abs startingBalance) > 1000000.0  then 
+    printfn "%s\nstartingBalance = %AM, endingBalance = %AM" sep (startingBalance / 1000000.0) (endingBalance / 1000000.0)
+else    
+    printfn "%s\nstartingBalance = %A, endingBalance = %A" sep startingBalance endingBalance
+
+printfn "sortedContracts.Lengtn = %A, sortedPositions.Length = %A" sortedContracts.Length sortedPositions.Length
 
