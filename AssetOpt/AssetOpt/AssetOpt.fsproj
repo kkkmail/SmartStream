@@ -55,7 +55,7 @@
     <Compile Include="AssetData.fs" />
     <Compile Include="DataGenerator.fs" />
     <Content Include="packages.config" />
-    <None Include="Script.fsx" />
+    <None Include="AsseOptimization.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

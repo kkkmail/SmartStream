@@ -5,6 +5,10 @@ type ConfigData =
         noOfContracts : int
         noOfAssets : int
 
+        // Min / Max number of resources for a contract
+        minNoOfAssets : int
+        maxNoOfAssets : int
+
         incrValues : float[]
         minValMultipliers : float[]
 
@@ -36,6 +40,9 @@ with
             noOfContracts = ConfigData.defaultNoOfContracts
             noOfAssets = ConfigData.defaultNoOfAssets
 
+            minNoOfAssets = min 2 ConfigData.defaultNoOfAssets
+            maxNoOfAssets = min 10 ConfigData.defaultNoOfAssets
+
             incrValues = [| 5.0; 10.0; 25.0; 50.0; 100.0 |]
             minValMultipliers = [| 4.0; 6.0; 8.0; 100.0 |]
 
@@ -52,14 +59,12 @@ with
             (* min/max amount of assets before settlement *)
             amountMultiplier = ConfigData.defaultAmountMultiplier
 
-            minAmountOnHand = -ConfigData.defaultAmountMultiplier / 5.0
+            minAmountOnHand = 0.0 //-ConfigData.defaultAmountMultiplier / 5.0
             maxAmountOnHand = ConfigData.defaultAmountMultiplier
 
             rescaleRates = true
             //useWeights = true
         }
 
-    member this.minNoOfAssets : int = min 2 this.noOfAssets
-    member this.maxNoOfAssets : int = min 10 this.noOfAssets
 
 
