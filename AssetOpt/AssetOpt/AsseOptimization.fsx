@@ -7,7 +7,6 @@ open AssetOpt.DataGenerator
 let sep = "\n=========================================="
 
 let rnd = new System.Random (1)
-
 let noOfContractsVal = 10000
 
 let conf = 
