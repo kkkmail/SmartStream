@@ -77,26 +77,6 @@ module DataGenerator =
 
     let getAllContracts (rnd : System.Random) (conf : ConfigData) : ContractDescriptor[] = 
        [| for i in 1..conf.noOfContracts -> getContract rnd conf |]
-       
-
-    //// Interest rates on positive / negative balances
-    //let getAssetInterestRate (rnd : System.Random) (conf : ConfigData) : float = 
-    //    let positiveRate = round (conf.maxIncomeAnnualRate * rnd.NextDouble()) // / 365.0
-    //    //let negativeRate = rnd.NextDouble (conf.maxIncomeAnnualRate, conf.maxBorrowingAnnualRate) // / 365.0
-
-    //    //{
-    //    //    incomeRate = positiveRate
-    //    //    //borrowingRate = negativeRate
-    //    //}
-    //    positiveRate
-
-
-    //let getInterestRates (rnd : System.Random) (conf : ConfigData) : InterestRate[] = 
-    //   [| for i in 1..conf.noOfAssets -> getAssetInterestRate rnd conf |]
-
-
-    //let getAssetBalances (rnd : System.Random) (conf : ConfigData) : float[] = 
-    //    [| for i in 1..conf.noOfAssets -> rnd.NextDouble (conf.minAmountOnHand, conf.maxAmountOnHand) |]
 
 
     let getPosition (rnd : System.Random) (conf : ConfigData) (asset : int) : PositionData = 

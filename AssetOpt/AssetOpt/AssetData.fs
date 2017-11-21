@@ -23,13 +23,6 @@ type ContractDescriptor =
     }
 
 
-//type InterestRate = 
-//    {
-//        incomeRate : float
-//        //borrowingRate : float
-//    }
-
-
 type PositionData = 
     {
         asset : int
