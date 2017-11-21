@@ -6,11 +6,11 @@ type AssetDescriptor =
         minVal : float
         incr : float
     }
-with
-    // valueID - ID of how much to pay
-    // Returns amount of the asset used for settlement
-    member rd.getDeliveryAmount (valueID : int) =
-        if valueID > 0 then rd.minVal + rd.incr * (float (valueID - 1)) else 0.0
+//with
+//    // valueID - ID of how much to pay
+//    // Returns amount of the asset used for settlement
+//    member rd.getDeliveryAmount (valueID : int) =
+//        if valueID > 0 then rd.minVal + rd.incr * (float (valueID - 1)) else 0.0
 
 
 type ContractDescriptor = 
@@ -23,10 +23,18 @@ type ContractDescriptor =
     }
 
 
-type InterestRate = 
+//type InterestRate = 
+//    {
+//        incomeRate : float
+//        //borrowingRate : float
+//    }
+
+
+type PositionData = 
     {
+        asset : int
         incomeRate : float
-        borrowingRate : float
+        balance : float
     }
 
 
@@ -35,9 +43,7 @@ type AllData =
         conf : ConfigData
         exchangeRates : float[][]
         contracts : ContractDescriptor[]
-        interestRates : InterestRate[]
-        balances : float[]
+        positions : PositionData[]
     }
-
 
 

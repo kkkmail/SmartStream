@@ -10,19 +10,24 @@ module DataGenerator =
     // TODO: Account for exchange rate spread if necessary
     // Exchange rates between assets. Modify as appropriate.
     let getExchangeRates (rnd : System.Random) (conf : ConfigData) =
-        let rateToBase = [| for i in 0..conf.noOfAssets - 1 -> if i = 0 then 1.0 else rnd.NextDouble (conf.minRate, conf.maxRate) |]
+        let rateToBase = 
+            if conf.rescaleRates 
+            then [| for i in 0..conf.noOfAssets - 1 -> 1.0 |]
+            else [| for i in 0..conf.noOfAssets - 1 -> if i = 0 then 1.0 else rnd.NextDouble (conf.minRate, conf.maxRate) |]
+
+            
         rateToBase |> Array.map (fun i -> rateToBase |> Array.map (fun j -> i / j))
 
 
     // Number of resources for a contract
     let getNoOfRes (rnd : System.Random) (conf : ConfigData) : int = 
-        rnd.Next (conf.minNoOfRes, conf.maxNoOfRes + 1)
+        rnd.Next (conf.minNoOfAssets, conf.maxNoOfAssets + 1)
 
 
     // Resources used by a contract
     let getResources (rnd : System.Random) (conf : ConfigData) : int[] =
         let noOfRes = getNoOfRes rnd conf
-        [| for i in 1..(noOfRes + 2) -> rnd.Next (0, conf.maxNoOfRes) |] 
+        [| for i in 1..(noOfRes + 2) -> rnd.Next (0, conf.maxNoOfAssets) |] 
         |> Array.distinct
         |> Array.sort
 
@@ -52,8 +57,8 @@ module DataGenerator =
     let getContract (rnd : System.Random) (conf : ConfigData) : ContractDescriptor = 
         let resoures = getResources rnd conf
         let baseAsset = resoures.[rnd.Next(0, resoures.Length)]
-        let amount = conf.maxContractAmount * rnd.NextDouble()
-        let nonPayingRate = (rnd.NextDouble (conf.maxBorrowingAnnualRate, conf.maxNonPayingAnnualRate)) / 365.0
+        let amount = round (conf.maxContractAmount * rnd.NextDouble())
+        let nonPayingRate = round (rnd.NextDouble (conf.maxIncomeAnnualRate, conf.maxNonPayingAnnualRate)) // / 365.0
 
         let overPayingRate = 0.0; // Update if needed
 
@@ -74,23 +79,36 @@ module DataGenerator =
        [| for i in 1..conf.noOfContracts -> getContract rnd conf |]
        
 
-    // Interest rates on positive / negative balances
-    let getAssetInterestRate (rnd : System.Random) (conf : ConfigData) : InterestRate = 
-        let positiveRate = conf.maxIncomeAnnualRate * rnd.NextDouble() / 365.0
-        let negativeRate = rnd.NextDouble (conf.maxIncomeAnnualRate, conf.maxBorrowingAnnualRate) / 365.0
+    //// Interest rates on positive / negative balances
+    //let getAssetInterestRate (rnd : System.Random) (conf : ConfigData) : float = 
+    //    let positiveRate = round (conf.maxIncomeAnnualRate * rnd.NextDouble()) // / 365.0
+    //    //let negativeRate = rnd.NextDouble (conf.maxIncomeAnnualRate, conf.maxBorrowingAnnualRate) // / 365.0
 
+    //    //{
+    //    //    incomeRate = positiveRate
+    //    //    //borrowingRate = negativeRate
+    //    //}
+    //    positiveRate
+
+
+    //let getInterestRates (rnd : System.Random) (conf : ConfigData) : InterestRate[] = 
+    //   [| for i in 1..conf.noOfAssets -> getAssetInterestRate rnd conf |]
+
+
+    //let getAssetBalances (rnd : System.Random) (conf : ConfigData) : float[] = 
+    //    [| for i in 1..conf.noOfAssets -> rnd.NextDouble (conf.minAmountOnHand, conf.maxAmountOnHand) |]
+
+
+    let getPosition (rnd : System.Random) (conf : ConfigData) (asset : int) : PositionData = 
         {
-            incomeRate = positiveRate
-            borrowingRate = negativeRate
+            asset = asset
+            balance = round (rnd.NextDouble (conf.minAmountOnHand, conf.maxAmountOnHand))
+            incomeRate = round (conf.maxIncomeAnnualRate * rnd.NextDouble())
         }
 
 
-    let getInterestRates (rnd : System.Random) (conf : ConfigData) : InterestRate[] = 
-       [| for i in 1..conf.noOfAssets -> getAssetInterestRate rnd conf |]
-
-
-    let getAssetBalances (rnd : System.Random) (conf : ConfigData) : float[] = 
-        [| for i in 1..conf.noOfAssets -> rnd.NextDouble (conf.minAmountOnHand, conf.maxAmountOnHand) |]
+    let getAllPositions (rnd : System.Random) (conf : ConfigData) : PositionData[] = 
+        [| for i in 0..conf.noOfAssets - 1 -> getPosition rnd conf i |]
 
 
     let getAllData (rnd : System.Random) (conf : ConfigData) : AllData = 
@@ -98,8 +116,7 @@ module DataGenerator =
             conf = conf
             exchangeRates = getExchangeRates rnd conf
             contracts = getAllContracts rnd conf
-            interestRates = getInterestRates rnd conf
-            balances = getAssetBalances rnd conf
+            positions = getAllPositions rnd conf
         }
 
 

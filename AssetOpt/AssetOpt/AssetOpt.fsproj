@@ -54,8 +54,6 @@
     <Compile Include="ConfigData.fs" />
     <Compile Include="AssetData.fs" />
     <Compile Include="DataGenerator.fs" />
-    <Compile Include="AssetOptimizer.fs" />
-    <Compile Include="Library1.fs" />
     <Content Include="packages.config" />
     <None Include="Script.fsx" />
   </ItemGroup>

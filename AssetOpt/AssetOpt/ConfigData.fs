@@ -12,7 +12,7 @@ type ConfigData =
         maxRate : float
 
         maxIncomeAnnualRate : float
-        maxBorrowingAnnualRate : float
+        //maxBorrowingAnnualRate : float
         maxNonPayingAnnualRate : float
 
         maxContractAmount : float
@@ -20,17 +20,21 @@ type ConfigData =
         amountMultiplier : float
         minAmountOnHand : float
         maxAmountOnHand : float
+
+        rescaleRates : bool // Set to true to generate exchange rates = 1.0
+        //useWeights : bool // Set to true to use weights instead of costs
     }
 with
-    static member defaultNoOfContracts : int = 10
-    static member defaultMaxContractAmount : float = 1000.0
+    static member defaultNoOfAssets : int = 3
+    static member defaultNoOfContracts : int = 4
+    static member defaultMaxContractAmount : float = 10000.0
     static member defaultAmountMultiplier : float = (float ConfigData.defaultNoOfContracts) * ConfigData.defaultMaxContractAmount / 2.0
     static member baseAccountingAsset = 0; // Asset in which perform all calculations.
 
     static member defaultValue : ConfigData = 
         {
             noOfContracts = ConfigData.defaultNoOfContracts
-            noOfAssets = 10
+            noOfAssets = ConfigData.defaultNoOfAssets
 
             incrValues = [| 5.0; 10.0; 25.0; 50.0; 100.0 |]
             minValMultipliers = [| 4.0; 6.0; 8.0; 100.0 |]
@@ -38,9 +42,9 @@ with
             minRate = 0.01; (* Around JPY *)
             maxRate = 3.0; (* Around KWD / BHD / OMR *)
 
-            maxIncomeAnnualRate = 1.0 ;
-            maxBorrowingAnnualRate = 3.0 ;
-            maxNonPayingAnnualRate = 10.0 ;
+            maxIncomeAnnualRate = 100.0 ;
+            //maxBorrowingAnnualRate = 3.0 ;
+            maxNonPayingAnnualRate = 200.0 ;
 
             maxContractAmount = ConfigData.defaultMaxContractAmount;
 
@@ -50,9 +54,12 @@ with
 
             minAmountOnHand = -ConfigData.defaultAmountMultiplier / 5.0
             maxAmountOnHand = ConfigData.defaultAmountMultiplier
+
+            rescaleRates = true
+            //useWeights = true
         }
 
-    member this.minNoOfRes : int = min 2 this.noOfAssets
-    member this.maxNoOfRes : int = min 10 this.noOfAssets
+    member this.minNoOfAssets : int = min 2 this.noOfAssets
+    member this.maxNoOfAssets : int = min 10 this.noOfAssets
 
 
