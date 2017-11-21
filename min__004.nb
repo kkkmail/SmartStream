@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     63194,       1456]
-NotebookOptionsPosition[     62888,       1443]
-NotebookOutlinePosition[     63237,       1458]
-CellTagsIndexPosition[     63194,       1455]
+NotebookDataLength[     62955,       1448]
+NotebookOptionsPosition[     62649,       1435]
+NotebookOutlinePosition[     62998,       1450]
+CellTagsIndexPosition[     62955,       1447]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -64,8 +64,7 @@ Cell[BoxData[
        "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
    RowBox[{"(*", " ", "Parameters", " ", "*)"}], "\n", 
    RowBox[{
-    RowBox[{"noOfContracts", " ", "=", "10000"}], ";"}], 
-   "\[IndentingNewLine]", 
+    RowBox[{"noOfContracts", " ", "=", "10"}], ";"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"noOfAssets", " ", "=", " ", "10"}], ";"}], "\[IndentingNewLine]",
     "\[IndentingNewLine]", 
@@ -80,15 +79,17 @@ Cell[BoxData[
       RowBox[{"4", ",", "6", ",", "8", ",", "10"}], "}"}]}], ";"}], 
    "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"minRate", " ", "=", " ", "0.01"}], ";", " ", 
-    RowBox[{"(*", " ", 
-     RowBox[{"Around", " ", "JPY"}], " ", "*)"}], "\[IndentingNewLine]", 
-    RowBox[{"maxRate", " ", "=", " ", "3"}], ";", " ", 
-    RowBox[{"(*", " ", 
-     RowBox[{"Around", " ", 
-      RowBox[{
-       RowBox[{"KWD", " ", "/", " ", "BHD"}], " ", "/", " ", "OMR"}]}], " ", 
-     "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"minRate", " ", "=", " ", "0.01"}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Around", " ", "JPY"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxRate", " ", "=", " ", "3"}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Around", " ", 
+     RowBox[{
+      RowBox[{"KWD", " ", "/", " ", "BHD"}], " ", "/", " ", "OMR"}]}], " ", 
+    "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
     RowBox[{"maxIncomeAnnualRate", " ", "=", " ", "1.0"}], " ", ";"}], 
    "\[IndentingNewLine]", 
    RowBox[{
@@ -137,26 +138,26 @@ Cell[BoxData[
       RowBox[{"10", ",", " ", "noOfAssets"}], "]"}]}], ";"}], 
    "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"baseAccountingAsset", " ", "=", " ", "1"}], ";", " ", 
-    RowBox[{"(*", " ", 
+    RowBox[{"baseAccountingAsset", " ", "=", " ", "1"}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Asset", " ", "in", " ", "which", " ", "perform", " ", "all", " ", 
+     RowBox[{"calculations", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
      RowBox[{
-     "Asset", " ", "in", " ", "which", " ", "perform", " ", "all", " ", 
-      RowBox[{"calculations", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
-    RowBox[{"(*", " ", 
-     RowBox[{
-      RowBox[{
-      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
-        "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
-    RowBox[{"(*", " ", 
-     RowBox[{
-      RowBox[{"Some", " ", "legacy", " ", "stuff"}], "..."}], " ", "*)"}], 
-    "\[IndentingNewLine]", 
-    RowBox[{"(*", " ", 
-     RowBox[{
-     "Sorts", " ", "the", " ", "second", " ", "list", " ", "using", " ", 
-      "the", " ", "normal", " ", "ordering", " ", "of", " ", "the", " ", 
-      "first", " ", 
-      RowBox[{"one", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Some", " ", "legacy", " ", "stuff"}], "..."}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Sorts", " ", "the", " ", "second", " ", "list", " ", "using", " ", "the",
+      " ", "normal", " ", "ordering", " ", "of", " ", "the", " ", "first", 
+     " ", 
+     RowBox[{"one", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
     RowBox[{
      RowBox[{"sortByFirst", "[", 
       RowBox[{
@@ -378,8 +379,9 @@ Cell[BoxData[
      RowBox[{"Module", "[", 
       RowBox[{
        RowBox[{"{", 
-        RowBox[{"noOfRes", ",", " ", "retVal"}], "}"}], ",", 
-       "\[IndentingNewLine]", 
+        RowBox[{
+        "noOfRes", ",", " ", "retVal", ",", "len", ",", " ", "noDupl"}], 
+        "}"}], ",", "\[IndentingNewLine]", 
        RowBox[{
         RowBox[{"noOfRes", " ", "=", " ", 
          RowBox[{"getNoOfRes", "[", "]"}]}], ";", "\[IndentingNewLine]", 
@@ -391,20 +393,23 @@ Cell[BoxData[
           RowBox[{"small", ".", " ", "It"}], " ", "is", " ", "irrelevant", 
           " ", "for", " ", "this", " ", 
           RowBox[{"test", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"noDupl", " ", "=", " ", 
+         RowBox[{"DeleteDuplicates", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"RandomInteger", "[", 
+             RowBox[{"{", 
+              RowBox[{"1", ",", " ", "maxNoOfRes"}], "}"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"ii", ",", "1", ",", 
+              RowBox[{"noOfRes", " ", "+", " ", "2"}]}], "}"}]}], "]"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
         RowBox[{"retVal", " ", "=", 
-         RowBox[{"Take", "[", " ", 
-          RowBox[{
-           RowBox[{"DeleteDuplicates", "[", 
-            RowBox[{"Table", "[", 
-             RowBox[{
-              RowBox[{"RandomInteger", "[", 
-               RowBox[{"{", 
-                RowBox[{"1", ",", " ", "maxNoOfRes"}], "}"}], "]"}], ",", 
-              RowBox[{"{", 
-               RowBox[{"ii", ",", "1", ",", 
-                RowBox[{"noOfRes", " ", "+", " ", "2"}]}], "}"}]}], "]"}], 
-            "]"}], ",", " ", 
-           RowBox[{"UpTo", "[", "noOfRes", "]"}]}], "]"}]}], ";", 
+         RowBox[{"Take", "[", 
+          RowBox[{"noDupl", ",", " ", 
+           RowBox[{"Min", "[", 
+            RowBox[{"noOfRes", ",", " ", 
+             RowBox[{"Length", "[", "noDupl", "]"}]}], "]"}]}], "]"}]}], ";", 
         "\[IndentingNewLine]", 
         RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
       "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
@@ -511,22 +516,7 @@ Cell[BoxData[
       RowBox[{"rd_", "?", "resourceDescriptorQ"}], "]"}], ":=", 
      RowBox[{"rd", "[", 
       RowBox[{"[", "3", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"rdGeValue", "[", 
-      RowBox[{
-       RowBox[{"rd_", "?", "resourceDescriptorQ"}], ",", " ", 
-       RowBox[{"idx_", "?", "IntegerQ"}]}], "]"}], ":=", 
-     RowBox[{"If", "[", 
-      RowBox[{
-       RowBox[{"idx", "\[LessEqual]", "0"}], ",", " ", 
-       RowBox[{"rdGetMinVal", "[", "rd", "]"}], ",", 
-       RowBox[{
-        RowBox[{"rdGetMinVal", "[", "rd", "]"}], " ", "+", " ", 
-        RowBox[{"idx", "*", " ", 
-         RowBox[{"rdGetIncr", "[", "rd", "]"}]}]}]}], "]"}]}], ";"}], 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
    RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{
@@ -1437,9 +1427,11 @@ Cell[BoxData[
    3.7201215652715845`*^9, 3.7201216997542777`*^9}, 3.7201217618633947`*^9, 
    3.720122429272361*^9, {3.720123326119269*^9, 3.7201234087144527`*^9}, {
    3.7201235935162992`*^9, 3.7201236012097597`*^9}, 3.720123789631507*^9, {
-   3.72012808908414*^9, 
-   3.7201280903374205`*^9}},ExpressionUUID->"496d70a9-5553-4606-a686-\
-ffb0db47a6ef"]
+   3.72012808908414*^9, 3.7201280903374205`*^9}, 3.720160833104704*^9, {
+   3.720160911471738*^9, 3.7201609116335545`*^9}, {3.720161013007391*^9, 
+   3.7201610890409803`*^9}, {3.720234872146885*^9, 
+   3.7202348737325163`*^9}},ExpressionUUID->"325744a9-f1e4-43f3-80f8-\
+f6a2f5efcd8d"]
 },
 WindowSize->{1145, 697},
 WindowMargins->{{Automatic, 143}, {Automatic, 28}},
@@ -1457,7 +1449,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 62326, 1421, 6660, "Input",ExpressionUUID->"496d70a9-5553-4606-a686-ffb0db47a6ef"]
+Cell[558, 20, 62087, 1413, 6622, "Input",ExpressionUUID->"325744a9-f1e4-43f3-80f8-f6a2f5efcd8d"]
 }
 ]
 *)
