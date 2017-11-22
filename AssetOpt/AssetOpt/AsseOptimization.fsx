@@ -3,6 +3,7 @@
 #r @".\bin\Debug\AssetOpt.dll"
 open AssetOpt
 open AssetOpt.DataGenerator
+open AssetOpt.TestData_01
 
 let printResults = true
 
@@ -10,23 +11,23 @@ let sep = "\n=========================================="
 
 let rnd = new System.Random (1)
 
-let conf = 
-    {   
-        ConfigData.defaultValue with
-            //noOfContracts = 10000
-            //noOfAssets = 100
+//let conf = 
+//    {   
+//        ConfigData.defaultValue with
+//            //noOfContracts = 10000
+//            //noOfAssets = 100
 
-            //minNoOfAssets = 10
-            //maxNoOfAssets = 10
+//            //minNoOfAssets = 10
+//            //maxNoOfAssets = 10
 
-            //maxAmountOnHand = 2500000.0
+//            //maxAmountOnHand = 2500000.0
 
-            rescaleRates = true
-    }
+//            rescaleRates = true
+//    }
 
-printfn "conf = %A" conf
+//printfn "conf = %A" conf
 
-let allData = getAllData rnd conf
+//let allData = getAllData rnd conf
 
 
 let getExchangeRate (fromAsset : int) (toAsset : int) : float =  
@@ -37,14 +38,45 @@ let payContract (contr : ContractDescriptor) (position : PositionData) : (Contra
     match contr.descriptors |> Array.tryFind (fun d -> d.asset = position.asset) with
     | Some d -> 
         let rate = getExchangeRate contr.baseAsset position.asset
+        let contrAmountInAsset = (contr.amount / rate)
 
+        let contrUnderpaidAmt, contrOverpaidAmt = 
+            if contrAmountInAsset < d.minVal 
+            then 
+                (0.0, d.minVal)
+            else
+                let m = (floor ((contrAmountInAsset - d.minVal) / d.incr)) * d.incr + d.minVal
+                (m, m + d.incr)
+          
         (* paid in asset, not in baseAsset *)
-        let paid =   
-            let canPayUpTo = (min position.balance (contr.amount / rate))
+        //let paid =   
+        //    let canPayUpTo = (min position.balance (contr.amount / rate))
+
+        //    if canPayUpTo < d.minVal 
+        //    then 0.0 
+        //    else (floor ((canPayUpTo - d.minVal) / d.incr)) * d.incr + d.minVal
+
+        let getPaid (amtToPay: float) =   
+            let canPayUpTo = (min position.balance amtToPay)
 
             if canPayUpTo < d.minVal 
             then 0.0 
             else (floor ((canPayUpTo - d.minVal) / d.incr)) * d.incr + d.minVal
+
+        let paid : float = 
+            if position.balance < contrOverpaidAmt
+            then
+                getPaid contrUnderpaidAmt // Don't have enough to pay contrOverpaidAmt
+            else 
+                let diffUnderpaid = 
+                    (contrAmountInAsset - contrUnderpaidAmt) * (contr.nonPayingRate - position.incomeRate)
+
+                let diffOverpaid = 
+                    contrAmountInAsset * (contr.nonPayingRate - position.incomeRate) - (contrOverpaidAmt - contrAmountInAsset) * position.incomeRate
+
+                if diffUnderpaid > diffOverpaid
+                then getPaid contrUnderpaidAmt
+                else getPaid contrOverpaidAmt // It is better to overpay
 
         ( { contr with amount = contr.amount - paid * rate }, { position with balance = position.balance - paid } )
     | None -> (contr, position)
@@ -66,9 +98,19 @@ let getAllPositionsIncome (positions : PositionData[]) =
     positions |> Array.fold (fun acc p -> acc + getPositionIncome p) 0.0
 
 
+
+let getContractSortOrder (position : PositionData) (contract : ContractDescriptor) =
+    let nonPaidVal = 100000.0
+
+    match contract.descriptors |> Array.tryFind (fun d -> d.asset = position.asset) with 
+    | Some d -> (-contract.nonPayingRate, -d.minVal, -d.incr)
+    | None -> (-contract.nonPayingRate, -nonPaidVal, -nonPaidVal) // Can't pay for this contract
+
+
 let payAllContracts (contracts : ContractDescriptor[], position : PositionData) : (ContractDescriptor[] * PositionData) = 
     let allPaid, newPos = 
         contracts
+        |> Array.sortBy (fun c -> getContractSortOrder position c) // Resort to fit particular position
         |> Array.fold (fun 
                         (paidContracts : List<ContractDescriptor>, currentPosition : PositionData) c -> 
                             let paid, updatedPosition = payContract c currentPosition
@@ -102,7 +144,7 @@ let sortedContracts =
 
 let sortedPositions =
     allData.positions 
-    |> Array.sortBy (fun p -> p.incomeRate)
+    |> Array.sortBy (fun p -> (p.incomeRate, -p.balance))
 
 
 if printResults then 
@@ -151,3 +193,15 @@ else
 
 printfn "sortedContracts.Lengtn = %A, sortedPositions.Length = %A" sortedContracts.Length sortedPositions.Length
 
+
+printfn "%s\nnewPos" sep
+newPos
+|> Array.sortBy (fun p -> p.asset)
+|> Array.map (fun p -> printfn "%A" p.balance)
+
+
+printfn "%s\npaid" sep
+paid
+|> Array.sortBy (fun p -> p.contractID)
+|> Array.zip allData.contracts
+|> Array.map (fun (c, p) -> printfn "c = %A, p = %A" c.amount p.amount)

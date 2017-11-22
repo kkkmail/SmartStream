@@ -1,10 +1,9 @@
+C:\GitHub\SmartStream\AssetOpt\AssetOpt\obj\Debug\AssetOpt.fsproj.CoreCompileInputs.cache
 C:\GitHub\SmartStream\AssetOpt\AssetOpt\bin\Debug\AssetOpt.XML
 C:\GitHub\SmartStream\AssetOpt\AssetOpt\bin\Debug\AssetOpt.dll
 C:\GitHub\SmartStream\AssetOpt\AssetOpt\bin\Debug\AssetOpt.pdb
 C:\GitHub\SmartStream\AssetOpt\AssetOpt\bin\Debug\FSharp.Core.dll
 C:\GitHub\SmartStream\AssetOpt\AssetOpt\bin\Debug\System.ValueTuple.dll
 C:\GitHub\SmartStream\AssetOpt\AssetOpt\bin\Debug\FSharp.Core.xml
-C:\GitHub\SmartStream\AssetOpt\AssetOpt\obj\Debug\AssetOpt.fsprojResolveAssemblyReference.cache
-C:\GitHub\SmartStream\AssetOpt\AssetOpt\obj\Debug\AssetOpt.fsproj.CoreCompileInputs.cache
 C:\GitHub\SmartStream\AssetOpt\AssetOpt\obj\Debug\AssetOpt.dll
 C:\GitHub\SmartStream\AssetOpt\AssetOpt\obj\Debug\AssetOpt.pdb

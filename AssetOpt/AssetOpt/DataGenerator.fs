@@ -9,7 +9,7 @@ module DataGenerator =
     // TODO: The distribution of exchange rates is clearly not uniform.
     // TODO: Account for exchange rate spread if necessary
     // Exchange rates between assets. Modify as appropriate.
-    let getExchangeRates (rnd : System.Random) (conf : ConfigData) =
+    let getExchangeRates (rnd : System.Random) (conf : ConfigData) : float[][] =
         let rateToBase = 
             if conf.rescaleRates 
             then [| for i in 0..conf.noOfAssets - 1 -> 1.0 |]
@@ -54,7 +54,7 @@ module DataGenerator =
         }
 
 
-    let getContract (rnd : System.Random) (conf : ConfigData) : ContractDescriptor = 
+    let getContract (rnd : System.Random) (conf : ConfigData) (contractID : int) : ContractDescriptor = 
         let resoures = getResources rnd conf
         let baseAsset = resoures.[rnd.Next(0, resoures.Length)]
         let amount = round (conf.maxContractAmount * rnd.NextDouble())
@@ -67,16 +67,17 @@ module DataGenerator =
             |> Array.map (fun r -> getAssetDescriptor rnd conf r)
    
         {
+            contractID = contractID
             baseAsset = baseAsset
             amount = amount
             descriptors = descriptors
             nonPayingRate = nonPayingRate
-            overPayingRate = overPayingRate
+            //overPayingRate = overPayingRate
         }
 
 
     let getAllContracts (rnd : System.Random) (conf : ConfigData) : ContractDescriptor[] = 
-       [| for i in 1..conf.noOfContracts -> getContract rnd conf |]
+       [| for i in 0..conf.noOfContracts - 1 -> getContract rnd conf i |]
 
 
     let getPosition (rnd : System.Random) (conf : ConfigData) (asset : int) : PositionData = 
