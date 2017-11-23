@@ -15,19 +15,13 @@ type AssetDescriptor =
 
 type ContractDescriptor = 
     {
+        contractID : int
         baseAsset : int
         amount : float
         descriptors : AssetDescriptor[]
         nonPayingRate : float
-        overPayingRate : float
+        //overPayingRate : float
     }
-
-
-//type InterestRate = 
-//    {
-//        incomeRate : float
-//        //borrowingRate : float
-//    }
 
 
 type PositionData = 
