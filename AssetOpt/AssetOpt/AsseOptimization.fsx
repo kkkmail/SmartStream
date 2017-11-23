@@ -3,7 +3,7 @@
 #r @".\bin\Debug\AssetOpt.dll"
 open AssetOpt
 open AssetOpt.DataGenerator
-open AssetOpt.TestData_01
+open AssetOpt.TestData_02
 
 let printResults = true
 
@@ -191,7 +191,7 @@ if (abs startingBalance) > 1000000.0  then
 else    
     printfn "%s\nstartingBalance = %A, endingBalance = %A" sep startingBalance endingBalance
 
-printfn "sortedContracts.Lengtn = %A, sortedPositions.Length = %A" sortedContracts.Length sortedPositions.Length
+printfn "sortedContracts.Length = %A, sortedPositions.Length = %A" sortedContracts.Length sortedPositions.Length
 
 
 printfn "%s\nnewPos" sep
