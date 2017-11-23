@@ -3,7 +3,7 @@
 #r @".\bin\Debug\AssetOpt.dll"
 open AssetOpt
 open AssetOpt.DataGenerator
-open AssetOpt.TestData_02
+open AssetOpt.TestData_03
 
 let printResults = true
 
