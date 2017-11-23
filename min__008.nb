@@ -1,0 +1,2095 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     90524,       2087]
+NotebookOptionsPosition[     90219,       2074]
+NotebookOutlinePosition[     90567,       2089]
+CellTagsIndexPosition[     90524,       2086]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Set", " ", "the", " ", "same", " ", "seedRandomValue", " ", "for", " ", 
+     "deterministic", " ", "results"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"rndVal", "=", 
+     RowBox[{"RandomInteger", "[", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", 
+        RowBox[{"10", "^", "12"}]}], "}"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"seedRandomValue", "=", "rndVal"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"seedRandomValue", " ", "=", " ", "597543585369"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SeedRandom", "[", "seedRandomValue", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<seedRandomValue = \>\"", ",", " ", "seedRandomValue"}], 
+     "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "Parameters", " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"noOfContracts", " ", "=", "100"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"noOfAssets", " ", "=", " ", "10"}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"noOfContracts", " ", "=", "3"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"noOfAssets", " ", "=", " ", "2"}], ";"}], "\[IndentingNewLine]",
+     "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"incrValues", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{"5", ",", "10", ",", "25", ",", "50", ",", "100"}], "}"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"minValMultipliers", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "6", ",", "8", ",", "10"}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"minRate", " ", "=", " ", "0.01"}], ";", " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{"Around", " ", "JPY"}], " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"maxRate", " ", "=", " ", "3"}], ";"}], " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Around", " ", 
+      RowBox[{
+       RowBox[{"KWD", " ", "/", " ", "BHD"}], " ", "/", " ", "OMR"}]}], " ", 
+     "*)"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"minRate", " ", "=", " ", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxRate", " ", "=", " ", "1"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"maxIncomeAnnualRate", " ", "=", " ", "1.0"}], " ", ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"maxBorrowingAnnualRate", " ", "=", " ", "3.0"}], " ", ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"maxNonPayingAnnualRate", " ", "=", " ", "10.0"}], " ", ";"}], 
+    "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxIncomeAnnualRate", " ", "=", " ", "100"}], " ", ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"maxBorrowingAnnualRate", " ", "=", " ", "3.0"}], " ", ";"}], 
+    " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxNonPayingAnnualRate", " ", "=", " ", "200"}], " ", ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxContractAmount", " ", "=", " ", "3000"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Adjust", " ", "as", " ", "necessary"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"min", "/", "max"}], " ", "amount", " ", "of", " ", "assets", 
+     " ", "before", " ", "settlement"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"amountMultiplier", " ", "=", " ", 
+     RowBox[{"noOfContracts", " ", "*", " ", 
+      RowBox[{"maxContractAmount", " ", "/", " ", "2"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"minAmountOnHand", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"-", 
+       RowBox[{"(", 
+        RowBox[{"amountMultiplier", "/", "5"}], ")"}]}], "*", "0"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxAmountOnHand", " ", "=", " ", 
+     RowBox[{"amountMultiplier", "/", "2"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"minNoOfRes", " ", "=", " ", 
+     RowBox[{"Min", "[", 
+      RowBox[{"2", ",", " ", "noOfAssets"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxNoOfRes", " ", "=", "  ", 
+     RowBox[{"Min", "[", 
+      RowBox[{"10", ",", " ", "noOfAssets"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"baseAccountingAsset", " ", "=", " ", "1"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Asset", " ", "in", " ", "which", " ", "perform", " ", "all", " ", 
+      RowBox[{"calculations", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+        "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Function", " ", "to", " ", "calculate", " ", "payment", " ", "amount", 
+      " ", "for", " ", "the", " ", "contract"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{"x", " ", "-", " ", 
+       RowBox[{"ID", " ", "of", " ", 
+        RowBox[{"payment", ":", " ", 
+         RowBox[{"0", " ", "-", " ", 
+          RowBox[{"do", " ", "not", " ", "pay"}]}]}]}]}], ",", " ", 
+      RowBox[{"1", " ", "-", " ", 
+       RowBox[{"pay", " ", "minAmount", " ", 
+        RowBox[{"(", "m", ")"}]}]}], ",", " ", 
+      RowBox[{
+       RowBox[{"over", " ", "1"}], " ", "-", " ", 
+       RowBox[{"pay", " ", "minAmount"}], " ", "+", " ", 
+       RowBox[{"step", " ", "*", " ", 
+        RowBox[{"(", 
+         RowBox[{"x", " ", "-", " ", "1"}], ")"}]}]}]}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"fPay", "[", 
+      RowBox[{"x_", ",", " ", "m_", ",", " ", "s_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"s", "*", "x"}], "-", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"m", "-", "s"}], ")"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "1"}], "+", 
+           RowBox[{"Sqrt", "[", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", "x"}], ")"}], "^", "2"}], "]"}], "-", 
+           "x"}], ")"}]}], ")"}], "/", "2"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Print", "[", 
+      RowBox[{"Plot", "[", 
+       RowBox[{
+        RowBox[{"fPay", "[", 
+         RowBox[{"x", ",", " ", "10", ",", "1"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", " ", "0", ",", "5"}], "}"}], ",", " ", 
+        RowBox[{"PlotRange", "\[Rule]", " ", "All"}], ",", " ", 
+        RowBox[{"Frame", "\[Rule]", "True"}], ",", " ", 
+        RowBox[{"GridLines", "\[Rule]", "Automatic"}]}], "]"}], "]"}], ";"}], 
+    " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Some", " ", "legacy", " ", "stuff"}], "..."}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"strSeparator", " ", "=", " ", 
+     RowBox[{
+     "\"\<=============================================\>\"", " ", "<>", " ", 
+      RowBox[{"FromCharacterCode", "[", "10", "]"}]}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+    "strSeparatorSmall", " ", "=", " ", 
+     "\"\<---------------------------------------------\>\""}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"strCRLF", " ", "=", " ", 
+     RowBox[{"FromCharacterCode", "[", "10", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"tStart", " ", "=", " ", 
+     RowBox[{"AbsoluteTime", "[", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"tMid", " ", "=", " ", "tStart"}], ";"}], "\n", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"printTimeUsed", "[", 
+      RowBox[{"showTime_", "?", "BooleanQ"}], "]"}], " ", ":=", " ", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "tEnd", ",", " ", "now", ",", " ", "diff", ",", " ", "diffTot"}], 
+        "}"}], ",", "\n", "  ", 
+       RowBox[{
+        RowBox[{"tEnd", " ", "=", " ", 
+         RowBox[{"AbsoluteTime", "[", "]"}]}], ";", "\n", "  ", 
+        RowBox[{"now", " ", "=", " ", 
+         RowBox[{"DateString", "[", "]"}]}], ";", "\n", "\n", "  ", 
+        RowBox[{"If", "[", 
+         RowBox[{"showTime", ",", "\n", "    ", 
+          RowBox[{"(", "\n", "      ", 
+           RowBox[{
+            RowBox[{"diff", " ", "=", " ", 
+             RowBox[{"tEnd", " ", "-", " ", "tMid"}]}], ";", "\n", "\n", 
+            "      ", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"diff", " ", "<", " ", "100"}], ",", "\n", "        ", 
+              RowBox[{"(", "\n", "          ", 
+               RowBox[{
+                RowBox[{"diff", " ", "=", " ", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Round", "[", 
+                   RowBox[{"diff", ",", " ", 
+                    RowBox[{"10", "^", 
+                    RowBox[{"-", "3"}]}]}], "]"}], "]"}]}], ";"}], "\n", 
+               "        ", ")"}], ",", "\n", "        ", 
+              RowBox[{"(", "\n", "          ", 
+               RowBox[{
+                RowBox[{"diff", " ", "=", " ", 
+                 RowBox[{"Round", "[", "diff", "]"}]}], ";"}], "\n", 
+               "        ", ")"}]}], "\n", "      ", "]"}], ";", "\n", "\n", 
+            "      ", 
+            RowBox[{"diffTot", " ", "=", " ", 
+             RowBox[{"Round", "[", 
+              RowBox[{"tEnd", " ", "-", " ", "tStart"}], "]"}]}], ";", "\n", 
+            "      ", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "now", ",", " ", "\"\<, time used: \>\"", ",", " ", "diff", ",", 
+              " ", "\"\<, total time used: \>\"", ",", " ", "diffTot", ",", 
+              " ", "\"\<.\>\"", ",", " ", 
+              RowBox[{
+               RowBox[{"FromCharacterCode", "[", "10", "]"}], " ", "<>", " ", 
+               "strSeparatorSmall"}]}], "]"}]}], "\n", "    ", ")"}], ",", 
+          "\n", "    ", 
+          RowBox[{"(", "\n", "      ", 
+           RowBox[{"Print", "[", "\"\<Time used reset.\>\"", "]"}], "\n", 
+           "    ", ")"}]}], "\n", "  ", "]"}], ";", "\n", "\n", "  ", 
+        RowBox[{"tMid", " ", "=", " ", "tEnd"}], ";"}]}], "\n", "]"}]}], 
+    ";"}], "\n", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"printTimeUsed", "[", "]"}], " ", ":=", " ", 
+     RowBox[{"printTimeUsed", "[", "True", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"TODO", ":", " ", 
+     RowBox[{
+     "The", " ", "distribution", " ", "of", " ", "exchange", " ", "rates", 
+      " ", "is", " ", "clearly", " ", "not", " ", 
+      RowBox[{"uniform", ".", " ", "This"}], " ", "is", " ", "irrelevant", 
+      " ", "for", " ", "the", " ", 
+      RowBox[{"test", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"TODO", ":", " ", 
+     RowBox[{
+     "Account", " ", "for", " ", "exchange", " ", "rate", " ", "spread", " ", 
+      "if", " ", "necessary"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Exchange", " ", "rates", " ", "between", " ", 
+     RowBox[{"assets", ".", " ", "Modify"}], " ", "as", " ", 
+     RowBox[{"appropriate", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getExchangeRates", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"retVal", ",", " ", "rateToBase"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{"rateToBase", "=", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"ii", "\[Equal]", "1"}], ",", " ", "1", ",", " ", 
+              RowBox[{"RandomReal", "[", 
+               RowBox[{"{", 
+                RowBox[{"minRate", ",", " ", "maxRate"}], "}"}], "]"}]}], 
+             "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"ii", ",", "1", ",", "noOfAssets"}], "}"}]}], "]"}]}], 
+         ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"rateToBase", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{"1", ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "noOfAssets"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"retVal", " ", "=", " ", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"ii", "\[Equal]", "jj"}], ",", " ", "1", ",", 
+             RowBox[{
+              RowBox[{"rateToBase", "[", 
+               RowBox[{"[", "ii", "]"}], "]"}], "/", 
+              RowBox[{"rateToBase", "[", 
+               RowBox[{"[", "jj", "]"}], "]"}]}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "noOfAssets"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"jj", ",", "1", ",", "noOfAssets"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Number", " ", "of", " ", "resources", " ", "for", " ", "a", " ", 
+     "contract"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getNoOfRes", "[", "]"}], ":=", 
+     RowBox[{"RandomInteger", "[", 
+      RowBox[{"{", 
+       RowBox[{"minNoOfRes", ",", " ", "maxNoOfRes"}], "}"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Resources", " ", "used", " ", "by", " ", "a", " ", "contract"}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getResources", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "noOfRes", ",", " ", "retVal", ",", "len", ",", " ", "noDupl"}], 
+        "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"noOfRes", " ", "=", " ", 
+         RowBox[{"getNoOfRes", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "Chances", " ", "of", " ", "NOT", " ", "getting", " ", "enough", " ",
+           "are", " ", 
+          RowBox[{"small", ".", " ", "It"}], " ", "is", " ", "irrelevant", 
+          " ", "for", " ", "this", " ", 
+          RowBox[{"test", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"noDupl", " ", "=", " ", 
+         RowBox[{"DeleteDuplicates", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"RandomInteger", "[", 
+             RowBox[{"{", 
+              RowBox[{"1", ",", " ", "maxNoOfRes"}], "}"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"ii", ",", "1", ",", 
+              RowBox[{"noOfRes", " ", "+", " ", "2"}]}], "}"}]}], "]"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"retVal", " ", "=", 
+         RowBox[{"Take", "[", 
+          RowBox[{"noDupl", ",", " ", 
+           RowBox[{"Min", "[", 
+            RowBox[{"noOfRes", ",", " ", 
+             RowBox[{"Length", "[", "noDupl", "]"}]}], "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"TODO", ":", " ", 
+     RowBox[{
+      RowBox[{
+      "Account", " ", "for", " ", "the", " ", "exchange", " ", "rate"}], " ", 
+      "-", " ", 
+      RowBox[{
+      "weak", " ", "currency", " ", "should", " ", "have", " ", "larger", " ",
+        "increment"}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Increment", " ", "for", " ", "a", " ", "contract"}], " ", "*)"}],
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getIncrement", "[", "]"}], ":=", 
+     RowBox[{"incrValues", "[", 
+      RowBox[{"[", 
+       RowBox[{"RandomInteger", "[", 
+        RowBox[{"{", 
+         RowBox[{"1", ",", " ", 
+          RowBox[{"Length", "[", "incrValues", "]"}]}], "}"}], "]"}], "]"}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Min", " ", "value", " ", "for", " ", "a", " ", "contract"}], " ",
+     "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getMinValue", "[", "incr_", "]"}], ":=", 
+     RowBox[{"incr", " ", "*", " ", 
+      RowBox[{"minValMultipliers", "[", 
+       RowBox[{"[", 
+        RowBox[{"RandomInteger", "[", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", " ", 
+           RowBox[{"Length", "[", "minValMultipliers", "]"}]}], "}"}], "]"}], 
+        "]"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"TODO", ":", " ", 
+     RowBox[{
+     "Rounding", " ", "rules", " ", "were", " ", "not", " ", "specified"}]}], 
+    " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getResourceDescriptor", "[", "resource_", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"retVal", ",", " ", "increment", ",", " ", "minVal"}], "}"}], 
+       ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"increment", " ", "=", " ", 
+         RowBox[{"getIncrement", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"minVal", " ", "=", 
+         RowBox[{"getMinValue", "[", "increment", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"retVal", " ", "=", " ", 
+         RowBox[{"{", 
+          RowBox[{"resource", ",", " ", "minVal", ",", " ", "increment"}], 
+          "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Update", " ", "as", " ", "needed"}], "..."}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"resourceDescriptorQ", "[", "rd_", "]"}], ":=", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"VectorQ", "[", "rd", "]"}], " ", "&&", " ", 
+        RowBox[{
+         RowBox[{"Length", "[", "rd", "]"}], "\[Equal]", " ", "3"}]}], ",", 
+       " ", "True", ",", " ", "False", ",", " ", "False"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "Do", " ", "not", " ", "want", " ", "to", " ", "use", " ", 
+      "associations"}], ",", " ", "datasets", ",", " ", "..."}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"rdGetAsset", "[", 
+      RowBox[{"rd_", "?", "resourceDescriptorQ"}], "]"}], ":=", 
+     RowBox[{"rd", "[", 
+      RowBox[{"[", "1", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"rdGetMinVal", "[", 
+      RowBox[{"rd_", "?", "resourceDescriptorQ"}], "]"}], ":=", 
+     RowBox[{"rd", "[", 
+      RowBox[{"[", "2", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"rdGetIncr", "[", 
+      RowBox[{"rd_", "?", "resourceDescriptorQ"}], "]"}], ":=", 
+     RowBox[{"rd", "[", 
+      RowBox[{"[", "3", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getContract", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", " ", "resoures", ",", " ", "increment", ",", " ", 
+         "minVal", ",", " ", "amount", ",", "baseCurrency", ",", " ", 
+         "nonPayingRate", ",", " ", "overPayingRate"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"resoures", " ", "=", " ", 
+         RowBox[{"getResources", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"baseCurrency", "=", 
+         RowBox[{"resoures", "[", 
+          RowBox[{"[", 
+           RowBox[{"RandomInteger", "[", 
+            RowBox[{"{", 
+             RowBox[{"1", ",", 
+              RowBox[{"Length", "[", "resoures", "]"}]}], "}"}], "]"}], "]"}],
+           "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"amount", "=", 
+         RowBox[{"RandomInteger", "[", "maxContractAmount", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"nonPayingRate", " ", "=", " ", 
+         RowBox[{"RandomInteger", "[", 
+          RowBox[{"{", 
+           RowBox[{
+           "maxIncomeAnnualRate", ",", " ", "maxNonPayingAnnualRate"}], "}"}],
+           "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", "  ", 
+         RowBox[{
+          RowBox[{"RandomReal", "[", 
+           RowBox[{"{", 
+            RowBox[{
+            "maxBorrowingAnnualRate", ",", " ", "maxNonPayingAnnualRate"}], 
+            "}"}], "]"}], " ", "/", " ", "365"}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"overPayingRate", "=", "0"}], ";", " ", 
+        RowBox[{"(*", " ", 
+         RowBox[{"Update", " ", "if", " ", "needed"}], " ", "*)"}], 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"retVal", " ", "=", " ", 
+         RowBox[{"{", 
+          RowBox[{"baseCurrency", ",", "amount", ",", 
+           RowBox[{"SortBy", "[", 
+            RowBox[{
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"getResourceDescriptor", "[", 
+                RowBox[{"resoures", "[", 
+                 RowBox[{"[", "ii", "]"}], "]"}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", 
+                 RowBox[{"Length", "[", "resoures", "]"}]}], "}"}]}], "]"}], 
+             ",", " ", "First"}], "]"}], ",", " ", "nonPayingRate", ",", " ", 
+           "overPayingRate"}], "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Update", " ", "as", " ", "needed"}], "..."}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"contractQ", "[", "c_", "]"}], ":=", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"ListQ", "[", "c", "]"}], "&&", " ", 
+        RowBox[{
+         RowBox[{"Length", "[", "c", "]"}], "\[Equal]", "5"}]}], ",", "True", 
+       ",", "False", ",", " ", "False"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"contrGetBaseCurrency", "[", 
+      RowBox[{"c_", "?", "contractQ"}], "]"}], ":=", 
+     RowBox[{"c", "[", 
+      RowBox[{"[", "1", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"contrGetAmount", "[", 
+      RowBox[{"c_", "?", "contractQ"}], "]"}], ":=", 
+     RowBox[{"c", "[", 
+      RowBox[{"[", "2", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"contrGetDescr", "[", 
+      RowBox[{"c_", "?", "contractQ"}], "]"}], ":=", 
+     RowBox[{"c", "[", 
+      RowBox[{"[", "3", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"contrGetNonPayingRate", "[", 
+      RowBox[{"c_", "?", "contractQ"}], "]"}], ":=", 
+     RowBox[{"c", "[", 
+      RowBox[{"[", "4", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"contrGetOverPayingRate", "[", 
+      RowBox[{"c_", "?", "contractQ"}], "]"}], ":=", 
+     RowBox[{"c", "[", 
+      RowBox[{"[", "5", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getAllContracts", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "retVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"retVal", " ", "=", " ", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"getContract", "[", "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "noOfContracts"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Interest", " ", "rates", " ", "on", " ", 
+     RowBox[{"positive", " ", "/", " ", "negative"}], " ", "balances"}], " ", 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getInstrumentInterestRate", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", " ", "positiveRate", ",", " ", "negativeRate"}], "}"}],
+        ",", "\[IndentingNewLine]", 
+       RowBox[{"(*", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"positiveRate", " ", "=", 
+          RowBox[{"RandomReal", "[", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "maxIncomeAnnualRate"}], "}"}], "]"}]}], 
+         ";", "\[IndentingNewLine]", 
+         RowBox[{"negativeRate", " ", "=", " ", 
+          RowBox[{"RandomReal", "[", 
+           RowBox[{"{", 
+            RowBox[{"positiveRate", ",", " ", "maxBorrowingAnnualRate"}], 
+            "}"}], "]"}]}], ";"}], "\[IndentingNewLine]", "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"positiveRate", " ", "=", 
+         RowBox[{"RandomInteger", "[", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "maxIncomeAnnualRate"}], "}"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"negativeRate", " ", "=", 
+         RowBox[{"10", "^", "6"}]}], ";", " ", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"Do", " ", "not", " ", "want", " ", "to", " ", "borrow"}], 
+          "..."}], " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"retVal", " ", "=", " ", 
+         RowBox[{"{", 
+          RowBox[{"positiveRate", ",", " ", "negativeRate"}], "}"}]}], " ", 
+        RowBox[{"(*", " ", 
+         RowBox[{"/", " ", "365"}], " ", "*)"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getInterestRates", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "retVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"retVal", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"getInstrumentInterestRate", "[", "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", " ", "1", ",", " ", "noOfAssets"}], "}"}]}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Update", " ", "as", " ", "needed"}], "..."}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"interestRateQ", "[", "c_", "]"}], ":=", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"ListQ", "[", "c", "]"}], "&&", " ", 
+        RowBox[{
+         RowBox[{"Length", "[", "c", "]"}], "\[Equal]", "2"}]}], ",", "True", 
+       ",", "False", ",", " ", "False"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"intGetIncomeRate", "[", 
+      RowBox[{"d_", "?", "interestRateQ"}], "]"}], ":=", 
+     RowBox[{"d", "[", 
+      RowBox[{"[", "1", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"intGetBorrowingRate", "[", 
+      RowBox[{"d_", "?", "interestRateQ"}], "]"}], ":=", 
+     RowBox[{"d", "[", 
+      RowBox[{"[", "2", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getAssets", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "retVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"retVal", " ", "=", " ", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"RandomInteger", "[", 
+            RowBox[{"{", 
+             RowBox[{"minAmountOnHand", ",", " ", "maxAmountOnHand"}], "}"}], 
+            "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "noOfAssets"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Must", " ", "be", " ", "at", " ", "the", " ", "top", " ", "if", " ", 
+     "getIncrement", " ", "and", " ", "getMinValue", " ", "have", " ", "to", 
+     " ", "be", " ", "modified", " ", "to", " ", "account", " ", "for", " ", 
+     "the", " ", 
+     RowBox[{"rates", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"allExchangeRates", " ", "=", " ", 
+     RowBox[{"getExchangeRates", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"allContracts", " ", "=", " ", 
+     RowBox[{"getAllContracts", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"allWeights", " ", "=", " ", 
+      RowBox[{"getWeights", "[", "]"}]}], ";"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"allInterestRates", " ", "=", " ", 
+     RowBox[{"getInterestRates", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"allAssets", " ", "=", " ", 
+     RowBox[{"getAssets", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getExchangeRate", "[", 
+      RowBox[{
+       RowBox[{"from_", "?", "IntegerQ"}], ",", " ", 
+       RowBox[{"to_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"allExchangeRates", "[", 
+      RowBox[{"[", 
+       RowBox[{"from", ",", " ", "to"}], "]"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Amount", " ", "in", " ", "the", " ", "base", " ", "asset", " ", "of", 
+     " ", "the", " ", "contract"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getBaseAmount", "[", 
+      RowBox[{"amt_", ",", " ", 
+       RowBox[{"deliveryAsset_", "?", "IntegerQ"}], ",", " ", 
+       RowBox[{"baseAsset_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "retVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"retVal", " ", "=", " ", 
+         RowBox[{"amt", " ", "*", " ", 
+          RowBox[{"getExchangeRate", "[", 
+           RowBox[{"deliveryAsset", ",", " ", "baseAsset"}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<getBaseAmount::retVal = \>\"", ",", " ", "retVal"}], 
+           "]"}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"valueID", " ", "-", " ", 
+     RowBox[{
+     "ID", " ", "of", " ", "how", " ", "much", " ", "much", " ", "to", " ", 
+      "pay"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Returns", " ", "amount", " ", "of", " ", "the", " ", "asset", " ", 
+     "used", " ", "for", " ", "settlement"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"getDeliveryAmount", "[", 
+      RowBox[{
+       RowBox[{"rd_", "?", "resourceDescriptorQ"}], ",", " ", 
+       RowBox[{"valueID_", "?", "IntegerQ"}]}], "]"}], ":="}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getDeliveryAmount", "[", 
+      RowBox[{
+       RowBox[{"rd_", "?", "resourceDescriptorQ"}], ",", " ", "valueID_"}], 
+      "]"}], ":=", "\[IndentingNewLine]", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", " ", "res", ",", " ", "minVal", ",", " ", "incr"}], 
+        "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"res", "=", 
+         RowBox[{"rdGetAsset", "[", "rd", "]"}]}], ";", "\[IndentingNewLine]",
+         " ", 
+        RowBox[{"minVal", "=", 
+         RowBox[{"rdGetMinVal", "[", "rd", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"incr", " ", "=", 
+         RowBox[{"rdGetIncr", "[", "rd", "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"valueID", ">", "0"}], ",", " ", 
+           RowBox[{"Evaluate", "[", 
+            RowBox[{"minVal", " ", "+", " ", 
+             RowBox[{"incr", " ", "*", " ", 
+              RowBox[{"(", 
+               RowBox[{"valueID", " ", "-", " ", "1"}], ")"}]}]}], "]"}], ",",
+            " ", "0"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"retVal", "=", 
+           RowBox[{"fPay", "[", 
+            RowBox[{"valueID", ",", " ", "minVal", ",", " ", "incr"}], 
+            "]"}]}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{
+           "\"\<getDeliveryAmount::retVal = \>\"", ",", " ", "retVal"}], 
+           "]"}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Cost", " ", "of", " ", "contract", " ", "in", " ", "accounting", " ", 
+     "currency"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"v", " ", "is", " ", "vector", " ", "of"}], " ", "..."}], " ", 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getContractCost", "[", 
+      RowBox[{
+       RowBox[{"contr_", "?", "contractQ"}], ",", " ", "v_"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", "len", ",", " ", "baseAsset", ",", " ", "amtToPay", 
+         ",", " ", "descr", ",", " ", "paid", ",", " ", "netAmt", ",", " ", 
+         "baseInc"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"baseAsset", " ", "=", " ", 
+         RowBox[{"contrGetBaseCurrency", "[", "contr", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"amtToPay", " ", "=", " ", 
+         RowBox[{"contrGetAmount", "[", "contr", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"descr", " ", "=", " ", 
+         RowBox[{"contrGetDescr", "[", "contr", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<contrCost::descr = \>\"", ",", " ", "descr"}], "]"}], 
+          ";"}], " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"len", " ", "=", " ", 
+         RowBox[{"Length", " ", "[", "descr", "]"}]}], ";", " ", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "v", " ", "must", " ", "have", " ", "the", " ", "same", " ", 
+          "length"}], " ", "*)"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "Paid", " ", "amount", " ", "in", " ", "base", " ", "asset", " ", 
+          "of", " ", "the", " ", "contract"}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"paid", "=", 
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           RowBox[{"getBaseAmount", "[", 
+            RowBox[{
+             RowBox[{"getDeliveryAmount", "[", 
+              RowBox[{
+               RowBox[{"descr", "[", 
+                RowBox[{"[", "ii", "]"}], "]"}], ",", " ", 
+               RowBox[{"v", "[", 
+                RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", " ", 
+             RowBox[{"rdGetAsset", "[", 
+              RowBox[{"descr", "[", 
+               RowBox[{"[", "ii", "]"}], "]"}], "]"}], ",", " ", 
+             "baseAsset"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", " ", "1", ",", " ", "len"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"netAmt", " ", "=", " ", 
+         RowBox[{"amtToPay", "-", "paid"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"baseInc", " ", "=", " ", 
+         RowBox[{
+          RowBox[{"-", "netAmt"}], "*", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"netAmt", ">", "0"}], ",", "  ", 
+            RowBox[{"Evaluate", "[", 
+             RowBox[{"contrGetNonPayingRate", "[", "contr", "]"}], "]"}], ",",
+             "  ", 
+            RowBox[{"Evaluate", "[", 
+             RowBox[{"contrGetOverPayingRate", "[", "contr", "]"}], "]"}]}], 
+           "]"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"baseInc", "=", 
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{"contrGetNonPayingRate", "[", "contr", "]"}]}], "*", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"Sqrt", "[", 
+                RowBox[{"netAmt", "^", "2"}], "]"}], "+", "netAmt"}], ")"}], 
+             "/", "2"}]}]}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"Amount", " ", "in", " ", "accounting", " ", "currency"}], 
+         " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{"baseInc", "*", " ", 
+          RowBox[{"getExchangeRate", "[", 
+           RowBox[{"baseAsset", ",", " ", "baseAccountingAsset"}], "]"}]}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Calculate", " ", "changes", " ", "to", " ", "position", " ", "due", " ", 
+     "to", " ", "settlement", " ", "of", " ", "a", " ", "given", " ", 
+     "contract"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getPositionChange", "[", 
+      RowBox[{
+       RowBox[{"contr_", "?", "contractQ"}], ",", " ", "v_"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"retVal", ",", " ", "descr", ",", " ", "len"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"descr", " ", "=", " ", 
+         RowBox[{"contrGetDescr", "[", "contr", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"len", " ", "=", " ", 
+         RowBox[{"Length", " ", "[", "descr", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{"0", ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "noOfAssets"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Do", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"retVal", "[", 
+              RowBox[{"[", " ", 
+               RowBox[{"rdGetAsset", "[", 
+                RowBox[{"descr", "[", 
+                 RowBox[{"[", "ii", "]"}], "]"}], "]"}], "]"}], "]"}], "-=", 
+             RowBox[{"getDeliveryAmount", "[", 
+              RowBox[{
+               RowBox[{"descr", "[", 
+                RowBox[{"[", "ii", "]"}], "]"}], ",", " ", 
+               RowBox[{"v", "[", 
+                RowBox[{"[", "ii", "]"}], "]"}]}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{"ii", ",", "1", ",", "len"}], "}"}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getContractAmt", "[", "contrID_", "]"}], ":=", 
+     RowBox[{"Sum", "[", 
+      RowBox[{
+       RowBox[{"getBaseAmount", "[", 
+        RowBox[{
+         RowBox[{"getDeliveryAmount", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"contrGetDescr", "[", 
+             RowBox[{"allContracts", "[", 
+              RowBox[{"[", "contrID", "]"}], "]"}], "]"}], "[", 
+            RowBox[{"[", "ii", "]"}], "]"}], ",", " ", 
+           RowBox[{
+            RowBox[{"allVars", "[", 
+             RowBox[{"[", "contrID", "]"}], "]"}], "[", 
+            RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", " ", 
+         RowBox[{"rdGetAsset", "[", 
+          RowBox[{
+           RowBox[{"contrGetDescr", "[", 
+            RowBox[{"allContracts", "[", 
+             RowBox[{"[", "contrID", "]"}], "]"}], "]"}], "[", 
+           RowBox[{"[", "ii", "]"}], "]"}], "]"}], ",", " ", 
+         RowBox[{"contrGetBaseCurrency", "[", 
+          RowBox[{"allContracts", "[", 
+           RowBox[{"[", "contrID", "]"}], "]"}], "]"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", " ", "1", ",", " ", 
+         RowBox[{"Length", "[", " ", 
+          RowBox[{"allVars", "[", 
+           RowBox[{"[", "contrID", "]"}], "]"}], "]"}]}], "}"}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<allContracts\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"allContracts", " ", "//", " ", "MatrixForm"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<allExchangeRates\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"allExchangeRates", " ", "//", " ", "MatrixForm"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<allInterestRates\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"allInterestRates", " ", "//", " ", "MatrixForm"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<allAssets\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"allAssets", " ", "//", " ", "MatrixForm"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<Contract Cost\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"contractID", "=", " ", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"contr", " ", "=", " ", 
+     RowBox[{"allContracts", "[", 
+      RowBox[{"[", "contractID", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"descr", " ", "=", " ", 
+     RowBox[{"contrGetDescr", "[", "contr", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"payVal", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"RandomInteger", "[", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", "5"}], "}"}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", " ", "1", ",", " ", 
+         RowBox[{"Length", "[", "descr", "]"}]}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"cost", "=", 
+     RowBox[{"getContractCost", "[", 
+      RowBox[{"contr", ",", " ", "payVal"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"change", " ", "=", " ", 
+     RowBox[{"getPositionChange", "[", 
+      RowBox[{"contr", ",", " ", "payVal"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<contr = \>\"", ",", " ", "contr"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<descr = \>\"", ",", " ", "descr"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<payVal = \>\"", ",", " ", "payVal"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<cost = \>\"", ",", " ", "cost"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<change = \>\"", ",", " ", "change"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<Variables\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"allVars", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"ToExpression", "[", 
+        RowBox[{"\"\<x\>\"", " ", "<>", " ", 
+         RowBox[{"ToString", "[", "ii", "]"}], " ", "<>", " ", "\"\<V\>\"", 
+         " ", "<>", "  ", 
+         RowBox[{"ToString", "[", 
+          RowBox[{"rdGetAsset", "[", 
+           RowBox[{
+            RowBox[{"contrGetDescr", "[", 
+             RowBox[{"allContracts", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], "]"}], "[", 
+            RowBox[{"[", "jj", "]"}], "]"}], "]"}], "]"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", "1", ",", "noOfContracts"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"jj", ",", "1", ",", 
+         RowBox[{"Length", "[", 
+          RowBox[{"contrGetDescr", "[", 
+           RowBox[{"allContracts", "[", 
+            RowBox[{"[", "ii", "]"}], "]"}], "]"}], "]"}]}], "}"}]}], "]"}]}],
+     ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"allVarsLinear", "  ", "=", " ", 
+     RowBox[{"Flatten", "[", "allVars", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"zeroRule", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"allVarsLinear", "[", 
+         RowBox[{"[", "ii", "]"}], "]"}], " ", "\[Rule]", " ", "0"}], ",", 
+       " ", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", " ", "1", ",", " ", 
+         RowBox[{"Length", "[", "allVarsLinear", "]"}]}], "}"}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nonNegativeCond", " ", "=", " ", "\"\<\>\""}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Do", "[", 
+     RowBox[{
+      RowBox[{"nonNegativeCond", " ", "=", " ", 
+       RowBox[{"nonNegativeCond", " ", "<>", " ", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"ii", " ", ">", " ", "1"}], ",", " ", "\"\< && \>\"", ",", 
+          " ", "\"\<\>\""}], "]"}], " ", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{"allVarsLinear", "[", 
+          RowBox[{"[", "ii", "]"}], "]"}], "]"}], " ", "<>", " ", 
+        "\"\< >= 0\>\""}]}], " ", ",", 
+      RowBox[{"{", 
+       RowBox[{"ii", ",", "1", ",", 
+        RowBox[{"Length", "[", "allVarsLinear", "]"}]}], "}"}]}], "]"}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nonNegativeCond", "=", 
+     RowBox[{"ToExpression", "[", "nonNegativeCond", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<allVars\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"allVars", " ", "//", " ", "MatrixForm"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<allVarsLinear\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "allVarsLinear", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<nonNegativeCond\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "nonNegativeCond", "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Maximization", " ", "function"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"generateContractCost", "[", 
+      RowBox[{"contractID_", "?", "IntegerQ"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "retVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"retVal", "=", 
+         RowBox[{"getContractCost", "[", 
+          RowBox[{
+           RowBox[{"allContracts", "[", 
+            RowBox[{"[", "contractID", "]"}], "]"}], ",", " ", 
+           RowBox[{"allVars", "[", 
+            RowBox[{"[", "contractID", "]"}], "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{
+           "\"\<generateContractCost::retVal = \>\"", ",", " ", "retVal", ",",
+             " ", "\"\<...\>\""}], "]"}], ";"}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"generatePositionChange", "[", 
+      RowBox[{"contractID_", "?", "IntegerQ"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "retVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"retVal", "=", 
+         RowBox[{"getPositionChange", "[", 
+          RowBox[{
+           RowBox[{"allContracts", "[", 
+            RowBox[{"[", "contractID", "]"}], "]"}], ",", " ", 
+           RowBox[{"allVars", "[", 
+            RowBox[{"[", "contractID", "]"}], "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{
+           "\"\<generatePositionChange::retVal = \>\"", ",", " ", "retVal"}], 
+           "]"}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"generateBalance", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"positionChange", ",", " ", "balance"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"positionChange", "=", 
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           RowBox[{"generatePositionChange", "[", "ii", "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "noOfContracts"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"balance", " ", "=", 
+         RowBox[{"allAssets", " ", "+", " ", "positionChange"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "balance", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"generateMaxFunc", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", " ", "cost", ",", " ", "balance", ",", " ", 
+         "assetIncome", ",", " ", "totalAssetIncome"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"cost", "=", 
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           RowBox[{"generateContractCost", "[", "ii", "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "noOfContracts"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"balance", "=", 
+         RowBox[{"generateBalance", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"assetIncome", " ", "=", " ", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"balance", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}], "*", 
+            RowBox[{"intGetIncomeRate", "[", 
+             RowBox[{"allInterestRates", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "noOfAssets"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"assetIncome", " ", "=", " ", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"balance", "[", 
+               RowBox[{"[", "ii", "]"}], "]"}], "*", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"balance", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}], "\[GreaterEqual]", "0"}], 
+                ",", " ", 
+                RowBox[{"Evaluate", "[", 
+                 RowBox[{"intGetIncomeRate", "[", 
+                  RowBox[{"allInterestRates", "[", 
+                   RowBox[{"[", "ii", "]"}], "]"}], "]"}], "]"}], ",", 
+                RowBox[{"Evaluate", "[", 
+                 RowBox[{"intGetBorrowingRate", "[", 
+                  RowBox[{"allInterestRates", "[", 
+                   RowBox[{"[", "ii", "]"}], "]"}], "]"}], "]"}]}], "]"}]}], 
+             ",", 
+             RowBox[{"{", 
+              RowBox[{"ii", ",", "1", ",", "noOfAssets"}], "}"}]}], "]"}]}], 
+          ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"totalAssetIncome", " ", "=", " ", 
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"assetIncome", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}], " ", "*", " ", 
+            RowBox[{"getExchangeRate", "[", 
+             RowBox[{"ii", ",", " ", "baseAccountingAsset"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", " ", "noOfAssets"}], "}"}]}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{"cost", " ", "+", " ", "totalAssetIncome"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<generateMaxFunc::retVal = \>\"", ",", " ", "retVal"}],
+            "]"}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"allBalance", "=", 
+     RowBox[{"generateBalance", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nonNegBalance", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"allBalance", "[", 
+         RowBox[{"[", "ii", "]"}], "]"}], "\[GreaterEqual]", " ", "0"}], ",", 
+       " ", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", " ", "1", ",", " ", 
+         RowBox[{"Length", "[", "allBalance", "]"}]}], "}"}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nonNegBalanceCond", " ", "=", " ", "\"\<\>\""}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Do", "[", 
+     RowBox[{
+      RowBox[{"nonNegBalanceCond", " ", "=", " ", 
+       RowBox[{"nonNegBalanceCond", " ", "<>", " ", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"ii", " ", ">", " ", "1"}], ",", " ", "\"\< && \>\"", ",", 
+          " ", "\"\<\>\""}], "]"}], " ", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{"InputForm", "[", 
+          RowBox[{"allBalance", "[", 
+           RowBox[{"[", "ii", "]"}], "]"}], "]"}], "]"}], " ", "<>", " ", 
+        "\"\< >= 0\>\""}]}], " ", ",", 
+      RowBox[{"{", 
+       RowBox[{"ii", ",", "1", ",", 
+        RowBox[{"Length", "[", "allBalance", "]"}]}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nonNegBalanceCond", "=", 
+     RowBox[{"ToExpression", "[", "nonNegBalanceCond", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<generateContractCost\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<generateContractCost[1] = \>\"", ",", " ", 
+     RowBox[{"generateContractCost", "[", "1", "]"}]}], "]"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<generatePositionChange\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", 
+    RowBox[{"generatePositionChange", "[", "1", "]"}], "]"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<generateMaxFunc\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxFunc", "=", 
+     RowBox[{"generateMaxFunc", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "maxFunc", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<nonNegativeCond\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "nonNegativeCond", "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<nonNegBalanceCond\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "nonNegBalanceCond", "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"printTimeUsed", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"crlf", "=", 
+      RowBox[{
+       RowBox[{"FromCharacterCode", "[", "13", "]"}], "<>", 
+       RowBox[{"FromCharacterCode", "[", "10", "]"}]}]}], ";"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"crlf", "=", 
+     RowBox[{"FromCharacterCode", "[", "13", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"generateConfStr", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "s", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"s", "=", 
+         RowBox[{"\"\<\>\"", "<>", "crlf"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{"s", "<>", "\"\<    let conf = \>\"", "<>", "crlf"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{"s", "<>", "\"\<        {   \>\"", "<>", "crlf"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", "<>", "\"\<            ConfigData.defaultValue with\>\"", "<>", 
+          "crlf"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{"s", "<>", "\"\<                noOfContracts = \>\"", "<>", 
+          RowBox[{"ToString", "[", "noOfContracts", "]"}], "<>", "crlf"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{"s", "<>", "\"\<                noOfAssets = \>\"", "<>", 
+          RowBox[{"ToString", "[", "noOfAssets", "]"}], "<>", "crlf"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", "<>", "\"\<                rescaleRates = true\>\"", "<>", 
+          "crlf"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", "<>", "\"\<        }\>\"", "<>", "crlf", "<>", "crlf"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "s", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"contrGetBaseCurrency", "[", 
+       RowBox[{"c_", "?", "contractQ"}], "]"}], ":=", 
+      RowBox[{"c", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"contrGetAmount", "[", 
+       RowBox[{"c_", "?", "contractQ"}], "]"}], ":=", 
+      RowBox[{"c", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"contrGetDescr", "[", 
+       RowBox[{"c_", "?", "contractQ"}], "]"}], ":=", 
+      RowBox[{"c", "[", 
+       RowBox[{"[", "3", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"contrGetNonPayingRate", "[", 
+       RowBox[{"c_", "?", "contractQ"}], "]"}], ":=", 
+      RowBox[{"c", "[", 
+       RowBox[{"[", "4", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"contrGetOverPayingRate", "[", 
+       RowBox[{"c_", "?", "contractQ"}], "]"}], ":=", 
+      RowBox[{"c", "[", 
+       RowBox[{"[", "5", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"rdGetAsset", "[", 
+       RowBox[{"rd_", "?", "resourceDescriptorQ"}], "]"}], ":=", 
+      RowBox[{"rd", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"rdGetMinVal", "[", 
+       RowBox[{"rd_", "?", "resourceDescriptorQ"}], "]"}], ":=", 
+      RowBox[{"rd", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"rdGetIncr", "[", 
+       RowBox[{"rd_", "?", "resourceDescriptorQ"}], "]"}], ":=", 
+      RowBox[{"rd", "[", 
+       RowBox[{"[", "3", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"intGetIncomeRate", "[", 
+       RowBox[{"d_", "?", "interestRateQ"}], "]"}], ":=", 
+      RowBox[{"d", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"intGetBorrowingRate", "[", 
+       RowBox[{"d_", "?", "interestRateQ"}], "]"}], ":=", 
+      RowBox[{"d", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", "*)"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"generateContractsStr", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"s", ",", " ", "len", ",", "descr"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"s", "=", 
+         RowBox[{"\"\<\>\"", "<>", "crlf"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", "<>", "\"\<    let contracts : ContractDescriptor[] = \>\"", "<>",
+           "crlf"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{"s", "<>", "\"\<        [|\>\"", "<>", "crlf"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Do", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"s", "=", 
+             RowBox[{
+             "s", "<>", "\"\<            { contractID = \>\"", " ", "<>", " ", 
+              RowBox[{"ToString", "[", 
+               RowBox[{"ii", "-", "1"}], "]"}], " ", "<>", " ", 
+              "\"\<; baseAsset = \>\"", " ", "<>", " ", 
+              RowBox[{"ToString", "[", 
+               RowBox[{
+                RowBox[{"contrGetBaseCurrency", "[", 
+                 RowBox[{"allContracts", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}], "]"}], "-", "1"}], "]"}], 
+              " ", "<>", " ", "\"\<; amount = \>\"", " ", "<>", 
+              RowBox[{"ToString", "[", 
+               RowBox[{"N", "[", 
+                RowBox[{"contrGetAmount", "[", 
+                 RowBox[{"allContracts", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}], "]"}], "]"}], "]"}], " ", "<>",
+               " ", "\"\<; descriptors = [| \>\""}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"descr", "=", 
+             RowBox[{"contrGetDescr", "[", 
+              RowBox[{"allContracts", "[", 
+               RowBox[{"[", "ii", "]"}], "]"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"len", " ", "=", " ", 
+             RowBox[{"Length", "[", "descr", "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"Do", "[", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"s", "=", 
+                 RowBox[{
+                 "s", " ", "<>", " ", "\"\<{ asset = \>\"", " ", "<>", " ", 
+                  RowBox[{"ToString", "[", 
+                   RowBox[{
+                    RowBox[{"rdGetAsset", "[", 
+                    RowBox[{"descr", "[", 
+                    RowBox[{"[", "jj", "]"}], "]"}], "]"}], " ", "-", " ", 
+                    "1"}], "]"}], "  ", "<>", " ", "\"\<; minVal = \>\"", " ",
+                   "<>", " ", 
+                  RowBox[{"ToString", "[", 
+                   RowBox[{"N", "[", 
+                    RowBox[{"rdGetMinVal", "[", 
+                    RowBox[{"descr", "[", 
+                    RowBox[{"[", "jj", "]"}], "]"}], "]"}], "]"}], "]"}], " ",
+                   "<>", " ", "\"\<; incr = \>\"", " ", "<>", " ", 
+                  RowBox[{"ToString", "[", 
+                   RowBox[{"N", "[", 
+                    RowBox[{"rdGetIncr", "[", 
+                    RowBox[{"descr", "[", 
+                    RowBox[{"[", "jj", "]"}], "]"}], "]"}], "]"}], "]"}], " ",
+                   "<>", " ", "\"\< }; \>\""}]}], ";"}], 
+               "\[IndentingNewLine]", ")"}], ",", 
+              RowBox[{"{", 
+               RowBox[{"jj", ",", "1", ",", "len"}], "}"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"s", "=", 
+             RowBox[{
+             "s", "<>", "\"\< |]; nonPayingRate = \>\"", " ", "<>", " ", 
+              RowBox[{"ToString", "[", 
+               RowBox[{"N", "[", 
+                RowBox[{"contrGetNonPayingRate", "[", 
+                 RowBox[{"allContracts", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}], "]"}], "]"}], "]"}], " ", "<>",
+               " ", "\"\< }\>\"", "<>", "crlf"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"ii", ",", "1", ",", "noOfContracts"}], "}"}]}], "]"}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{"s", "<>", "\"\<        |]\>\"", "<>", "crlf"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "s", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"generatePositionsStr", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "s", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"s", "=", 
+         RowBox[{"\"\<\>\"", "<>", "crlf"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", "<>", "\"\<    let positions : PositionData[] = \>\"", "<>", 
+          "crlf"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{"s", "<>", "\"\<        [|\>\"", "<>", "crlf"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Do", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"s", "=", 
+             RowBox[{
+             "s", "<>", "\"\<            { asset = \>\"", " ", "<>", " ", 
+              RowBox[{"ToString", "[", 
+               RowBox[{"ii", "-", "1"}], "]"}], " ", "<>", " ", 
+              "\"\<; balance = \>\"", " ", "<>", " ", 
+              RowBox[{"ToString", "[", 
+               RowBox[{"N", "[", 
+                RowBox[{"allAssets", "[", 
+                 RowBox[{"[", "ii", "]"}], "]"}], "]"}], "]"}], " ", "<>", 
+              " ", "\"\<; incomeRate = \>\"", " ", "<>", " ", 
+              RowBox[{"ToString", "[", 
+               RowBox[{"N", "[", 
+                RowBox[{"intGetIncomeRate", "[", 
+                 RowBox[{"allInterestRates", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}], "]"}], "]"}], "]"}], " ", "<>",
+               " ", "\"\< }\>\"", "<>", "crlf"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"ii", ",", "1", ",", "noOfAssets"}], "}"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{"s", "<>", "\"\<        |]\>\"", "<>", "crlf"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "s", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<conf = \>\"", ",", " ", "crlf", ",", " ", 
+      RowBox[{"generateConfStr", "[", "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<contracts = \>\"", ",", " ", "crlf", ",", " ", 
+      RowBox[{"generateContractsStr", "[", "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<positions = \>\"", ",", " ", "crlf", ",", " ", 
+      RowBox[{"generatePositionsStr", "[", "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Print", "[", "\"\<Calling NMaximize...\>\"", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"sol", " ", "=", " ", 
+      RowBox[{"NMaximize", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"maxFunc", ",", " ", 
+          RowBox[{
+          "nonNegativeCond", " ", "&&", " ", "nonNegBalanceCond", " ", "&&", 
+           " ", 
+           RowBox[{"Element", "[", 
+            RowBox[{"allVarsLinear", ",", " ", "Integers"}], "]"}]}]}], "}"}],
+         ",", " ", "allVarsLinear", ",", " ", 
+        RowBox[{"MaxIterations", "\[Rule]", "100000"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"printTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<sol = \>\"", ",", " ", "sol"}], "]"}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", "\"\<Initial balances\>\"", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"zeroBal", "=", 
+      RowBox[{
+       RowBox[{"generateBalance", "[", "]"}], " ", "/.", " ", "zeroRule"}]}], 
+     ";", "\[IndentingNewLine]", " ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"zeroBal", " ", "//", " ", "MatrixForm"}], ",", " ", 
+       "strSeparator"}], "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", "\"\<Updated balances:\>\"", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"newBal", "=", 
+      RowBox[{
+       RowBox[{"generateBalance", "[", "]"}], " ", "/.", " ", 
+       RowBox[{"sol", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"newBal", " ", "//", " ", "MatrixForm"}], ",", " ", 
+       "strSeparator"}], "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", "\"\<Initial contract amounts\>\"", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"initContrAmt", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"contrGetAmount", "[", 
+           RowBox[{"allContracts", "[", 
+            RowBox[{"[", "ii", "]"}], "]"}], "]"}], "-", 
+          RowBox[{"getContractAmt", "[", "ii", "]"}]}], " ", "/.", 
+         "zeroRule"}], ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"ii", ",", 
+          RowBox[{"1", " ", "noOfContracts"}]}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", " ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"initContrAmt", " ", "//", " ", "MatrixForm"}], ",", " ", 
+       "strSeparator"}], "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", " ", "[", "\"\<Updated contract amounts.\>\"", "]"}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"newContrAmt", " ", "=", " ", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"contrGetAmount", "[", 
+           RowBox[{"allContracts", "[", 
+            RowBox[{"[", "ii", "]"}], "]"}], "]"}], "-", 
+          RowBox[{"getContractAmt", "[", "ii", "]"}]}], " ", "/.", " ", 
+         RowBox[{"sol", "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"ii", ",", 
+          RowBox[{"1", " ", "noOfContracts"}]}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"newContrAmt", " ", "//", " ", "MatrixForm"}], ",", " ", 
+       "strSeparator"}], "]"}], ";"}], "\[IndentingNewLine]", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.720031631412962*^9, 3.720031635856347*^9}, {
+   3.7200318981905775`*^9, 3.7200319880990887`*^9}, {3.720032050297068*^9, 
+   3.720032073337101*^9}, {3.7200321139342017`*^9, 3.720032245698577*^9}, {
+   3.720032286894945*^9, 3.720032307342555*^9}, {3.720032434504899*^9, 
+   3.720032457184939*^9}, {3.7200332878366547`*^9, 3.720033321462284*^9}, {
+   3.7200334025943856`*^9, 3.720033694349142*^9}, {3.720033737964944*^9, 
+   3.7200337890828247`*^9}, {3.720033820343012*^9, 3.720033877658218*^9}, {
+   3.7200339146309395`*^9, 3.720033943049342*^9}, {3.7200340057776237`*^9, 
+   3.720034069128824*^9}, {3.720034108001397*^9, 3.7200341255361443`*^9}, {
+   3.720034174222356*^9, 3.720034245519497*^9}, {3.720034321387437*^9, 
+   3.7200343247170286`*^9}, {3.7200343952006903`*^9, 
+   3.7200345267282257`*^9}, {3.7200345983763876`*^9, 3.7200346014986143`*^9}, 
+   3.720034633042688*^9, {3.7200347441137247`*^9, 3.7200347490983014`*^9}, {
+   3.720034905744167*^9, 3.7200349970822678`*^9}, {3.7200350859757843`*^9, 
+   3.7200351564580107`*^9}, {3.7200351902545333`*^9, 3.7200352821862*^9}, {
+   3.720035331926512*^9, 3.720035427838932*^9}, {3.7200357640176907`*^9, 
+   3.720035770267927*^9}, {3.720035829446577*^9, 3.7200358383256683`*^9}, {
+   3.7200359043647003`*^9, 3.720035940083332*^9}, {3.7200359770323925`*^9, 
+   3.720036015255269*^9}, {3.720036062445797*^9, 3.720036099158122*^9}, {
+   3.7200363505397778`*^9, 3.720036351113335*^9}, {3.720036387622686*^9, 
+   3.7200364683985505`*^9}, {3.7200365381444793`*^9, 3.720036569385887*^9}, {
+   3.720036663648946*^9, 3.7200366648019037`*^9}, {3.72003670380767*^9, 
+   3.7200367068279686`*^9}, {3.720036809834304*^9, 3.7200368195593953`*^9}, {
+   3.720036891426649*^9, 3.7200369556813383`*^9}, {3.72003700010847*^9, 
+   3.7200371699379406`*^9}, {3.720037233638276*^9, 3.720037372054143*^9}, {
+   3.720037409721265*^9, 3.7200374834311447`*^9}, {3.7200375507554064`*^9, 
+   3.720037689268669*^9}, {3.7200377222460976`*^9, 3.7200377746025615`*^9}, {
+   3.720037826155442*^9, 3.7200379560826206`*^9}, {3.720038036408085*^9, 
+   3.720038066331234*^9}, {3.720038109489109*^9, 3.7200381368885126`*^9}, {
+   3.7200381734042883`*^9, 3.7200382176047297`*^9}, {3.72003853113492*^9, 
+   3.720038560838264*^9}, {3.7200386434770927`*^9, 3.7200386720894537`*^9}, {
+   3.7200387494760857`*^9, 3.720038750834262*^9}, {3.7200389474596767`*^9, 
+   3.720039008382188*^9}, {3.720039050986359*^9, 3.720039260503713*^9}, {
+   3.7200393117991333`*^9, 3.720039314728478*^9}, {3.720039394588802*^9, 
+   3.7200394091885967`*^9}, {3.7200395573841057`*^9, 3.720039557925353*^9}, {
+   3.7200396119684563`*^9, 3.720039638119933*^9}, {3.7200417755715995`*^9, 
+   3.7200418137675557`*^9}, {3.7200424114738426`*^9, 
+   3.7200424290270753`*^9}, {3.7200424683988733`*^9, 3.720042479790144*^9}, {
+   3.7200425190626163`*^9, 3.720042542113489*^9}, {3.7200426358603916`*^9, 
+   3.720042668636738*^9}, {3.7200427031368732`*^9, 3.7200427057621646`*^9}, {
+   3.720044031953027*^9, 3.7200440972840276`*^9}, {3.720044134433895*^9, 
+   3.7200442400413313`*^9}, {3.720044344663913*^9, 3.720044424848791*^9}, {
+   3.7200445020894055`*^9, 3.7200445220521927`*^9}, {3.720044651443261*^9, 
+   3.7200446687660847`*^9}, {3.7200447096374283`*^9, 
+   3.7200447121184106`*^9}, {3.7200448352517834`*^9, 3.720044835411653*^9}, {
+   3.720046468345631*^9, 3.7200464888841753`*^9}, {3.720046675678053*^9, 
+   3.720046798768486*^9}, {3.7200470394030457`*^9, 3.7200472390227165`*^9}, 
+   3.7200472904883595`*^9, {3.7200473342953486`*^9, 3.7200475306480975`*^9}, {
+   3.72004809803452*^9, 3.7200481034149504`*^9}, 3.720048179962819*^9, {
+   3.7200482598649764`*^9, 3.720048263282346*^9}, {3.7200484933912506`*^9, 
+   3.7200485795183516`*^9}, {3.720048610313932*^9, 3.7200487553808403`*^9}, {
+   3.720048786126443*^9, 3.7200487897890873`*^9}, {3.720049004861603*^9, 
+   3.720049007801393*^9}, {3.7200805301986666`*^9, 3.720080537996515*^9}, {
+   3.720080591388033*^9, 3.7200806035171003`*^9}, {3.720080698733433*^9, 
+   3.7200808236910458`*^9}, {3.720080863914793*^9, 3.7200808781853437`*^9}, {
+   3.7200809189591846`*^9, 3.720080940367943*^9}, {3.720081069664695*^9, 
+   3.7200810697747803`*^9}, {3.720081163526764*^9, 3.7200811814951687`*^9}, {
+   3.720081232030876*^9, 3.720081286224416*^9}, {3.7200813468297896`*^9, 
+   3.7200814730896463`*^9}, {3.72008155507835*^9, 3.720081658197708*^9}, {
+   3.7200816970484343`*^9, 3.7200817460680323`*^9}, 3.720081869037392*^9, {
+   3.720081929202691*^9, 3.720081930067668*^9}, {3.720082010254143*^9, 
+   3.72008204305329*^9}, {3.720107298380751*^9, 3.7201073318301415`*^9}, {
+   3.7201073680538225`*^9, 3.7201074014953947`*^9}, {3.7201074545749393`*^9, 
+   3.7201075504944286`*^9}, {3.7201075903698626`*^9, 3.720107598902751*^9}, {
+   3.7201093836591744`*^9, 3.720109398504795*^9}, {3.7201095661776466`*^9, 
+   3.7201096123195777`*^9}, {3.720109643176543*^9, 3.720109691974969*^9}, {
+   3.720109722457619*^9, 3.7201098067355027`*^9}, {3.720109897475238*^9, 
+   3.7201099223123817`*^9}, {3.7201099632364373`*^9, 3.720109978380804*^9}, {
+   3.7201100219010677`*^9, 3.720110030769158*^9}, {3.7201100899873066`*^9, 
+   3.7201101041639757`*^9}, {3.720110161830564*^9, 3.7201103264275064`*^9}, {
+   3.7201104610520773`*^9, 3.720110518845745*^9}, 3.7201106389975743`*^9, {
+   3.7201106768425684`*^9, 3.7201107180110083`*^9}, {3.720110796506624*^9, 
+   3.720110824420873*^9}, {3.7201108571791654`*^9, 3.7201110318503675`*^9}, {
+   3.720111186693924*^9, 3.720111188413315*^9}, {3.720111662377139*^9, 
+   3.7201117190834074`*^9}, {3.7201117931256547`*^9, 
+   3.7201118146101074`*^9}, {3.7201118501738396`*^9, 
+   3.7201118526141386`*^9}, {3.7201119249882703`*^9, 3.720112057309435*^9}, {
+   3.720112094454314*^9, 3.720112143695628*^9}, {3.720112186530285*^9, 
+   3.7201122846761494`*^9}, {3.720112327076002*^9, 3.720112347438978*^9}, {
+   3.7201124057599535`*^9, 3.7201124568022823`*^9}, {3.7201124904050026`*^9, 
+   3.7201125251904144`*^9}, {3.720112593787166*^9, 3.7201128131584034`*^9}, {
+   3.7201129349251823`*^9, 3.7201130325384846`*^9}, {3.720113236681615*^9, 
+   3.7201135226210265`*^9}, {3.7201135761560154`*^9, 
+   3.7201135786665106`*^9}, {3.720113632198343*^9, 3.720113747120567*^9}, {
+   3.7201137841375046`*^9, 3.7201137995831633`*^9}, {3.7201138606890354`*^9, 
+   3.720113864376178*^9}, {3.7201140456188264`*^9, 3.72011410080256*^9}, {
+   3.720114240557009*^9, 3.720114245210824*^9}, 3.7201143015902176`*^9, {
+   3.7201145860473323`*^9, 3.720114598170001*^9}, {3.720114659672615*^9, 
+   3.720114862248103*^9}, {3.720114922005746*^9, 3.7201149855810943`*^9}, {
+   3.720115070054355*^9, 3.7201151169484043`*^9}, {3.720115170718089*^9, 
+   3.7201152654588747`*^9}, {3.7201153068687043`*^9, 
+   3.7201154085584097`*^9}, {3.72011546891726*^9, 3.7201155061067524`*^9}, {
+   3.7201155365545964`*^9, 3.7201155420329766`*^9}, {3.720115960475771*^9, 
+   3.7201160702230306`*^9}, {3.72011610343157*^9, 3.7201161132438393`*^9}, {
+   3.7201161536612234`*^9, 3.7201162171684127`*^9}, {3.7201163707746773`*^9, 
+   3.7201163962147465`*^9}, {3.7201164509813313`*^9, 
+   3.7201164904949636`*^9}, {3.720116534393217*^9, 3.7201166122579026`*^9}, {
+   3.72011665901972*^9, 3.7201166933609056`*^9}, 3.7201167237347784`*^9, {
+   3.72011682850232*^9, 3.7201168321824045`*^9}, {3.720116868213608*^9, 
+   3.720116875298473*^9}, {3.7201169321150894`*^9, 3.7201169336435156`*^9}, {
+   3.720117032593748*^9, 3.7201171108996677`*^9}, {3.7201171427404485`*^9, 
+   3.720117186043577*^9}, {3.7201172627297373`*^9, 3.720117342143258*^9}, {
+   3.7201173741997347`*^9, 3.720117641552151*^9}, 3.7201177149757957`*^9, {
+   3.720117795968229*^9, 3.7201178194438887`*^9}, {3.7201181411021423`*^9, 
+   3.7201181679931517`*^9}, {3.720118229953997*^9, 3.7201183477102995`*^9}, {
+   3.720118413856696*^9, 3.7201184247967415`*^9}, {3.7201184960419855`*^9, 
+   3.7201185124966707`*^9}, {3.720118548504734*^9, 3.7201186635339403`*^9}, {
+   3.7201187471706333`*^9, 3.720118774942481*^9}, {3.7201188300603995`*^9, 
+   3.720118843386816*^9}, {3.720118884592417*^9, 3.7201189802693405`*^9}, {
+   3.7201190289116116`*^9, 3.7201191394439554`*^9}, {3.7201193059318466`*^9, 
+   3.7201193383587255`*^9}, {3.720119412943655*^9, 3.720119475353447*^9}, {
+   3.7201195273390036`*^9, 3.7201195404149065`*^9}, {3.720119660032377*^9, 
+   3.720119831401219*^9}, {3.7201198765944595`*^9, 3.720119878283791*^9}, {
+   3.720119928115409*^9, 3.7201199297104278`*^9}, {3.7201199723920126`*^9, 
+   3.7201201136112933`*^9}, {3.720120170572982*^9, 3.7201201759353657`*^9}, {
+   3.720120454582686*^9, 3.720120469080639*^9}, {3.7201205888381605`*^9, 
+   3.7201207450113244`*^9}, {3.720120781421167*^9, 3.7201208587050333`*^9}, 
+   3.720120903897354*^9, {3.720120954879634*^9, 3.7201210150208035`*^9}, {
+   3.7201210557667913`*^9, 3.7201210573757186`*^9}, {3.7201210889126368`*^9, 
+   3.7201211157743483`*^9}, {3.720121177251675*^9, 3.7201211804957094`*^9}, {
+   3.7201215652715845`*^9, 3.7201216997542777`*^9}, 3.7201217618633947`*^9, 
+   3.720122429272361*^9, {3.720123326119269*^9, 3.7201234087144527`*^9}, {
+   3.7201235935162992`*^9, 3.7201236012097597`*^9}, 3.720123789631507*^9, {
+   3.72012808908414*^9, 3.7201280903374205`*^9}, 3.720160833104704*^9, {
+   3.720160911471738*^9, 3.7201609116335545`*^9}, {3.720161013007391*^9, 
+   3.7201610890409803`*^9}, {3.720234872146885*^9, 3.7202348737325163`*^9}, {
+   3.7203254588765016`*^9, 3.7203254899179163`*^9}, {3.720325529547321*^9, 
+   3.7203255299856625`*^9}, {3.720325566323464*^9, 3.720325581425228*^9}, {
+   3.72032561453478*^9, 3.7203256176001797`*^9}, {3.72032566856104*^9, 
+   3.7203257148403945`*^9}, {3.7203257775778155`*^9, 
+   3.7203259049165764`*^9}, {3.720325962800931*^9, 3.7203260767932615`*^9}, 
+   3.7203261333721914`*^9, {3.7203261636176853`*^9, 3.7203261903624163`*^9}, 
+   3.720326254917213*^9, {3.720326311023255*^9, 3.7203263113707523`*^9}, {
+   3.7203263620630617`*^9, 3.7203263673707037`*^9}, 3.7203265935588017`*^9, {
+   3.720327103013549*^9, 3.72032710595084*^9}, {3.720327143275881*^9, 
+   3.7203271604994693`*^9}, {3.7203273735989285`*^9, 
+   3.7203273884251957`*^9}, {3.7203286430546875`*^9, 
+   3.7203286642063637`*^9}, {3.7203287250522766`*^9, 3.720328803542775*^9}, {
+   3.720328845711892*^9, 3.720328885658504*^9}, {3.720329121609997*^9, 
+   3.720329163106719*^9}, {3.7203292635399256`*^9, 3.7203293003327827`*^9}, {
+   3.720329353726157*^9, 3.720329355885512*^9}, {3.720329402368602*^9, 
+   3.720329412173721*^9}, {3.720329469908396*^9, 3.7203296274567175`*^9}, {
+   3.720329691232483*^9, 3.720329778228409*^9}, {3.7203298706767855`*^9, 
+   3.720329887968634*^9}, {3.72033002549747*^9, 3.7203300324921207`*^9}, {
+   3.7203301526988*^9, 3.7203301553723135`*^9}, {3.7203302048144283`*^9, 
+   3.7203302272925544`*^9}, {3.720330314395447*^9, 3.720330378408225*^9}, {
+   3.720330423677174*^9, 3.7203304728003645`*^9}, {3.7203305031949267`*^9, 
+   3.720330526550666*^9}, {3.7203306283058543`*^9, 3.7203306311227484`*^9}, {
+   3.7203311254740195`*^9, 3.720331127913273*^9}, 3.7203311690334396`*^9, 
+   3.7203315063492584`*^9, {3.720339510689192*^9, 3.72033965899434*^9}, {
+   3.7203396949989347`*^9, 3.7203397060777397`*^9}, {3.720339790238063*^9, 
+   3.720339807230576*^9}, {3.7203398916881995`*^9, 3.7203398920790377`*^9}, {
+   3.720353448342055*^9, 3.720353451038937*^9}, {3.7203535245934305`*^9, 
+   3.7203535342017756`*^9}, {3.7203535678967595`*^9, 
+   3.7203536063646307`*^9}, {3.7203538635937166`*^9, 
+   3.7203539202145805`*^9}, {3.720353952455906*^9, 3.7203540612503223`*^9}, {
+   3.7203544106516094`*^9, 3.720354607650362*^9}, {3.720354639095854*^9, 
+   3.720354769929046*^9}, {3.720354839221403*^9, 3.72035489945325*^9}, {
+   3.7203549332686796`*^9, 3.720354965514596*^9}, {3.7203550774300394`*^9, 
+   3.720355097789956*^9}, {3.720355202465305*^9, 3.720355350079918*^9}, {
+   3.7203558896625276`*^9, 3.720355994307306*^9}, 3.7203794230315576`*^9, {
+   3.720379520806466*^9, 3.7203796898070865`*^9}, {3.7203797233705378`*^9, 
+   3.7203797430778103`*^9}, {3.7203797756064706`*^9, 
+   3.7203798487370577`*^9}, {3.72038136308501*^9, 3.720381436182022*^9}, {
+   3.720381478508787*^9, 3.7203814865778847`*^9}, {3.720381559720462*^9, 
+   3.7203815698926034`*^9}, {3.7203816111555696`*^9, 
+   3.7203816112468553`*^9}, {3.7203816599159374`*^9, 
+   3.7203819521168957`*^9}, {3.7203819905747166`*^9, 3.720382119707032*^9}, {
+   3.720382487151369*^9, 3.7203824966264753`*^9}, {3.720382670092843*^9, 
+   3.720382779580564*^9}, {3.720382815004933*^9, 3.7203828383626976`*^9}, {
+   3.720382886598144*^9, 3.720382949543646*^9}, {3.7203830208424454`*^9, 
+   3.720383026549699*^9}, {3.720383101983901*^9, 3.7203831260005865`*^9}, {
+   3.7203831570516143`*^9, 3.720383185768686*^9}, {3.7203832224404593`*^9, 
+   3.720383285527714*^9}, {3.720383529761009*^9, 3.7203835332216597`*^9}, {
+   3.720384026638968*^9, 
+   3.720384026817441*^9}},ExpressionUUID->"ad92d2f3-5287-4abd-8d26-\
+b7e5d597b13a"]
+},
+WindowSize->{1371, 685},
+WindowMargins->{{Automatic, -6}, {-5, Automatic}},
+FrontEndVersion->"11.2 for Microsoft Windows (64-bit) (September 10, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 89657, 2052, 9415, "Input",ExpressionUUID->"ad92d2f3-5287-4abd-8d26-b7e5d597b13a"]
+}
+]
+*)
+
