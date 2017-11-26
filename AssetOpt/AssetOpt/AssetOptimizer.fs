@@ -179,3 +179,5 @@ type AssetOptimizer (allData : AllData) =
         |> Array.map (fun (c, p) -> printfn "initial = %A, paid = %A" c.amount p.amount)
         |> ignore
 
+        printfn "%s" sep
+
