@@ -1,14 +1,10 @@
 ﻿printfn "Starting..."
 
 #r @".\bin\Debug\AssetOpt.dll"
-open AssetOpt
-open AssetOpt.TestData_04
+open AssetOpt.Optimization
 
-#time
-let optimizer = AssetOptimizer (allData)
-#time
-
-//optimizer.printInformation ()
-optimizer.printBalances ()
-optimizer.printResults ()
+runOptimizer AssetOpt.TestData__a4_c6.allData
+runOptimizer AssetOpt.TestData__a6_c20.allData
+runOptimizer AssetOpt.TestData__a10_c100.allData
+runOptimizer AssetOpt.TestData__a20_c200.allData
 

@@ -1,6 +1,6 @@
 ﻿namespace AssetOpt
 
-module TestData_03 = 
+module TestData__a6_c20 = 
     // All generated, DO NOT MODIFY !!!
 
     let conf = 
