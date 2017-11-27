@@ -1,18 +1,12 @@
 ﻿namespace AssetOpt
 
-module TestData_01 = 
+module TestData__a4_c6 = 
 
     let conf = 
         {   
             ConfigData.defaultValue with
                 noOfContracts = 6
                 noOfAssets = 4
-
-                //minNoOfAssets = 10
-                //maxNoOfAssets = 10
-
-                //maxAmountOnHand = 2500000.0
-
                 rescaleRates = true
         }
 
